@@ -175,6 +175,46 @@ VARSAMOPOULOS = (
     "Varsamopoulos S, Criger B, Bertels K. Decoding small surface codes with feedforward neural "
     "networks. Quantum Science and Technology 2018; 3:015004."
 )
+BB_NATURE = (
+    "Bravyi S, Cross AW, Gambetta JM, Maslov D, Rall P, Yoder TJ. High-threshold and low-overhead "
+    "fault-tolerant quantum memory. Nature 2024; 627:778-782."
+)
+PANTELEEV_KALACHEV = (
+    "Panteleev P, Kalachev G. Degenerate quantum LDPC codes with good finite length performance. "
+    "Quantum 2021; 5:585."
+)
+ROFFE_BPOSD = (
+    "Roffe J, White DR, Burton S, Campbell E. Decoding across the quantum low-density parity-check "
+    "code landscape. Physical Review Research 2020; 2:043423."
+)
+TILLICH_ZEMOR = (
+    "Tillich JP, Zemor G. Quantum LDPC codes with positive rate and minimum distance proportional "
+    "to the square root of the block length. IEEE Transactions on Information Theory 2014; "
+    "60:1193-1202."
+)
+DELFOSSE_ZEMOR = (
+    "Delfosse N, Zemor G. Linear-time maximum likelihood decoding of surface codes over the "
+    "quantum erasure channel. Physical Review Research 2020; 2:033042."
+)
+TUCKETT = (
+    "Tuckett DK, Bartlett SD, Flammia ST. Ultrahigh error threshold for surface codes with biased "
+    "noise. Physical Review Letters 2018; 120:050505."
+)
+STACE_BARRETT = (
+    "Stace TM, Barrett SD. Error correction and degeneracy in surface codes suffering loss. "
+    "Physical Review A 2010; 81:022317."
+)
+LITINSKI_GAME = (
+    "Litinski D. A game of surface codes: large-scale quantum computation with lattice surgery. "
+    "Quantum 2019; 3:128."
+)
+LITINSKI_MAGIC = (
+    "Litinski D. Magic state distillation: not as costly as you think. Quantum 2019; 3:205."
+)
+LITINSKI_NICKERSON = (
+    "Litinski D, Nickerson N. Active volume: an architecture for efficient fault-tolerant quantum "
+    "computers. arXiv:2211.15465, 2022."
+)
 
 
 DOCS: list[Doc] = [
@@ -186,7 +226,7 @@ DOCS: list[Doc] = [
         title="A Quantum Error Correction Research Portfolio: From Circuit-Level Simulation to Fault-Tolerance Economics",
         repo_url="https://github.com/afogelis/qec-portfolio",
         abstract=(
-            "This document introduces a seven-part software portfolio in quantum error correction "
+            "This document introduces a ten-part software portfolio in quantum error correction "
             "(QEC). Its flagship result is an exact, sampling-free measurement of how far the "
             "standard minimum-weight perfect matching decoder sits from the provably optimal "
             "maximum-likelihood decoder: by enumerating every error pattern of small surface codes, "
@@ -202,7 +242,12 @@ DOCS: list[Doc] = [
             "code by matching-based decoders, a calibrated reproduction of the roughly "
             "twenty-million-qubit, eight-hour estimate for Shor's algorithm on RSA-2048, and a "
             "simulation reproduction of the error-suppression scaling reported by Google in 2023 "
-            "(suppression factor near 2.2 below threshold)."
+            "(suppression factor near 2.2 below threshold). Three further repositories extend the "
+            "portfolio to the frontier beyond the surface code: a from-scratch builder and BP+OSD "
+            "decoder for bivariate-bicycle qLDPC codes, a study of biased noise and heralded "
+            "erasure that reproduces the analytic one-half erasure threshold with a from-scratch "
+            "peeling decoder, and a fault-tolerant resource compiler that optimises the "
+            "magic-state factory ratio to minimise spacetime volume."
         ),
         sections=[
             Section(
@@ -218,12 +263,13 @@ DOCS: list[Doc] = [
                     "the statistics of rare-event estimation, and the software engineering needed "
                     "to make all of this reproducible.",
                     "This portfolio was built to demonstrate that breadth as a coherent body of "
-                    "work rather than as isolated scripts. It is organised as seven independent "
-                    "repositories connected by explicit dependencies, so that each can be read on "
-                    "its own while the whole forms a pipeline from first-principles simulation to "
-                    "decision-ready resource estimates. The remainder of this document summarises "
-                    "the arc, the engineering standards shared across the repositories, and the "
-                    "principal quantitative findings.",
+                    "work rather than as isolated scripts. It is organised as ten independent "
+                    "repositories, the first seven connected by explicit dependencies into a "
+                    "pipeline from first-principles simulation to decision-ready resource "
+                    "estimates, and three further standalone repositories covering qLDPC codes, "
+                    "hardware-realistic noise and fault-tolerant compilation. The remainder of this "
+                    "document summarises the arc, the engineering standards shared across the "
+                    "repositories, and the principal quantitative findings.",
                 ],
             ),
             Section(
@@ -1046,6 +1092,326 @@ DOCS: list[Doc] = [
             ),
         ],
         references=[MAAN_PALER, BRAVYI, DENNIS, PYMATCHING],
+    ),
+    # -----------------------------------------------------------------
+    # 8. qldpc-builder
+    # -----------------------------------------------------------------
+    Doc(
+        slug="08_qldpc_builder",
+        title="Building Bivariate-Bicycle qLDPC Codes and Decoding Them with a From-Scratch BP+OSD",
+        repo_url="https://github.com/afogelis/qldpc-builder",
+        abstract=(
+            "Quantum low-density parity-check (qLDPC) codes promise far lower physical-qubit "
+            "overhead than the surface code by encoding many logical qubits per block. The "
+            "bivariate-bicycle and generalized-bicycle families were constructed from scratch over "
+            "GF(2), together with a hypergraph-product toric code as a surface-family baseline, and "
+            "their logical operators and encoding rates were computed exactly. A belief-propagation "
+            "decoder with order-0 ordered-statistics post-processing (BP+OSD) was implemented "
+            "directly, so that the study reproduces on any interpreter without a compiled "
+            "dependency; the compiled ldpc package is supported as an optional faster backend. "
+            "Under the code-capacity bit-flip model, a distance-comparable bivariate-bicycle code "
+            "matched the toric baseline's logical error rate while encoding several times as many "
+            "logical qubits per physical qubit, illustrating the qLDPC rate advantage. The block "
+            "logical error rate of the highest-rate code was correspondingly larger because it "
+            "aggregates over more logical qubits, an honestly reported trade-off."
+        ),
+        sections=[
+            Section(
+                "Introduction",
+                [
+                    "The surface code encodes a single logical qubit in a two-dimensional patch and "
+                    "pays a large physical-qubit overhead for it. Quantum LDPC codes break that "
+                    "geometric constraint: by allowing slightly longer-range checks they encode a "
+                    "constant fraction of logical qubits per physical qubit while keeping the "
+                    "checks sparse. The bivariate-bicycle codes of Bravyi and co-workers (2024) "
+                    "brought this family within reach of near-term hardware, achieving competitive "
+                    "thresholds at a fraction of the overhead.",
+                    "This work was undertaken to build those codes from first principles and to "
+                    "decode them with the decoder they were designed for, belief propagation with "
+                    "ordered-statistics post-processing, in order to demonstrate the rate advantage "
+                    "of qLDPC codes over the surface code on a common, reproducible footing.",
+                ],
+            ),
+            Section(
+                "Materials and Methods",
+                [
+                    "Bivariate-bicycle codes were constructed on a two-dimensional torus from two "
+                    "matrices formed as sums of monomials in the commuting cyclic shifts of the two "
+                    "factors, giving CSS check matrices that commute by construction. Generalized- "
+                    "bicycle codes were built analogously from circulant polynomials over a single "
+                    "cyclic group, and a toric baseline was obtained as the hypergraph product of "
+                    "two cyclic repetition codes. The number of logical qubits and the logical "
+                    "operators were computed by GF(2) rank, null-space and quotient routines "
+                    "implemented for this purpose.",
+                    "Decoding used a from-scratch BP+OSD: log-domain sum-product belief propagation "
+                    "produced a posterior error probability per qubit, and when belief propagation "
+                    "failed to explain the syndrome, order-0 ordered-statistics decoding ordered "
+                    "the qubits most-likely-error first, selected a full-rank information set by "
+                    "GF(2) elimination, and solved the syndrome exactly on it, guaranteeing a valid "
+                    "correction. Logical error rates were estimated under the code-capacity "
+                    "bit-flip model with Wilson confidence intervals; the compiled ldpc package was "
+                    "supported as an optional backend for cross-checking.",
+                ],
+            ),
+            Section(
+                "Results",
+                [
+                    "At a fixed physical error rate of four percent, the bivariate-bicycle codes "
+                    "occupied the high-encoding-rate region of the rate-versus-logical-error plane "
+                    "while the toric codes sat at vanishing rate. A bivariate-bicycle code on a "
+                    "nine-by-six torus, encoding eight logical qubits in one hundred and eight "
+                    "physical qubits, matched the toric baseline's logical error rate while "
+                    "encoding four times as many logical qubits per physical qubit.",
+                    "The highest-rate code studied, which encodes twelve logical qubits in "
+                    "seventy-two physical qubits, showed a larger block logical error rate. This is "
+                    "expected and is reported plainly: the block error rate counts a failure if any "
+                    "of its twelve logical qubits is corrupted, so a higher-rate code with more "
+                    "logical qubits naturally fails more often per block even when its per-logical "
+                    "performance is comparable. The encoding-rate axis is the advantage being "
+                    "illustrated.",
+                ],
+                figures=[
+                    (
+                        "08_rate_ler.png",
+                        "Figure 1. Encoding rate versus code-capacity logical error rate at a physical error rate of four percent for bivariate-bicycle codes (circles) and toric baselines (squares). The qLDPC codes reach comparable logical error rates at several times the encoding rate.",
+                    ),
+                    (
+                        "08_ler_vs_p.png",
+                        "Figure 2. Logical error rate versus physical error rate under the code-capacity bit-flip model for a bivariate-bicycle code and the distance-five toric code.",
+                    ),
+                ],
+            ),
+            Section(
+                "Discussion",
+                [
+                    "Reproducing the qLDPC rate advantage from a hand-built code and a hand-built "
+                    "decoder clarifies why the advantage exists and what it costs: the codes pack "
+                    "many logical qubits into few physical qubits, and the price is a denser, more "
+                    "degenerate Tanner graph on which plain belief propagation does not converge, "
+                    "which is precisely why the ordered-statistics post-processing step is "
+                    "essential. That OSD always returns a syndrome-consistent correction is the "
+                    "property a stand-alone belief-propagation decoder lacks.",
+                    "The study is deliberately limited to the code-capacity model and to small "
+                    "codes, so it illustrates the rate advantage qualitatively rather than quoting "
+                    "circuit-level thresholds or claiming any specific hardware-overhead figure. A "
+                    "circuit-level syndrome-extraction treatment with realistic noise, and a "
+                    "higher-order OSD via the compiled backend at larger block lengths, are the "
+                    "natural next steps.",
+                ],
+            ),
+        ],
+        references=[BB_NATURE, PANTELEEV_KALACHEV, ROFFE_BPOSD, TILLICH_ZEMOR, DENNIS],
+    ),
+    # -----------------------------------------------------------------
+    # 9. qec-noise-profiles
+    # -----------------------------------------------------------------
+    Doc(
+        slug="09_qec_noise_profiles",
+        title="Biased Noise and Heralded Erasure on the Toric Code: A Tale of Two Thresholds",
+        repo_url="https://github.com/afogelis/qec-noise-profiles",
+        abstract=(
+            "Real qubits do not fail with symmetric depolarising noise: they dephase far more than "
+            "they bit-flip, and some platforms can detect when a qubit is lost. Both regimes were "
+            "modelled on the toric code under the code-capacity model. Biased Pauli noise, "
+            "parameterised by a Z-bias, was decoded with bias-aware weighted minimum-weight "
+            "matching, and heralded erasure was decoded with a from-scratch peeling decoder. The "
+            "peeling decoder reproduced the analytically known erasure threshold of one half - the "
+            "bond-percolation threshold of the lattice - which validates the implementation, while "
+            "depolarising noise crossed near sixteen percent. A non-obvious result emerged: for the "
+            "untailored toric code, concentrating noise on a single Pauli type did not raise the "
+            "tolerable total error rate and was in fact marginally worse than depolarising, because "
+            "almost all the error then loads a single decoding graph. The dramatic, robust win is "
+            "erasure conversion, not bias alone."
+        ),
+        sections=[
+            Section(
+                "Introduction",
+                [
+                    "The threshold of a quantum error-correcting code is quoted for a particular "
+                    "noise model, almost always symmetric depolarising noise, yet real devices are "
+                    "strongly biased toward dephasing and some can convert leakage or loss into "
+                    "heralded erasures whose location the decoder learns. How much the noise "
+                    "profile changes what a code can tolerate is therefore a practical question of "
+                    "first importance.",
+                    "This work modelled biased Pauli noise and heralded erasure on the toric code "
+                    "and decoded each with the appropriate decoder, in order to make the very "
+                    "different thresholds of the two regimes vivid and reproducible, and to test "
+                    "honestly whether bias alone helps an untailored code.",
+                ],
+            ),
+            Section(
+                "Materials and Methods",
+                [
+                    "The distance-d toric code was constructed on a periodic square lattice with one "
+                    "qubit per edge, giving star and plaquette stabilisers whose parity-check "
+                    "matrices have column weight two and are therefore graph incidence matrices. "
+                    "Biased Pauli noise was parameterised by a total rate and a Z-bias, with a bias "
+                    "of one half recovering depolarising noise; each error type was decoded by "
+                    "minimum-weight matching whose edge weights were set from the per-qubit marginal "
+                    "flip probability, making the matching bias-aware. Heralded erasure replaced "
+                    "each erased qubit with a uniformly random Pauli while revealing the erased "
+                    "positions to the decoder.",
+                    "Erasure was decoded with a from-scratch peeling decoder, which grows a spanning "
+                    "forest of the erased subgraph and peels pendant edges, assigning each the value "
+                    "that satisfies its leaf stabiliser; this reproduces the syndrome exactly and "
+                    "fails only when the erasure percolates a non-contractible loop. Thresholds were "
+                    "estimated from distance-by-physical-rate sweeps with Wilson confidence "
+                    "intervals. A Stim multi-Pauli-product front-end expresses the same "
+                    "code-capacity experiment natively and cross-checks the hand-written sampler.",
+                ],
+            ),
+            Section(
+                "Results",
+                [
+                    "The erasure threshold sweep produced a clean crossing of the distance-four, six "
+                    "and eight curves at a physical error rate of one half, the bond-percolation "
+                    "threshold of the lattice and the analytically known erasure threshold of the "
+                    "toric code. The depolarising sweep crossed near sixteen percent, consistent "
+                    "with the toric-code depolarising threshold under independent matching. Heralded "
+                    "erasure thus tolerated roughly three times the physical error rate of "
+                    "depolarising noise.",
+                    "The comparison at fixed distance revealed a non-obvious result. Biased noise at "
+                    "a Z-bias of thirty was marginally worse than depolarising in terms of total "
+                    "physical error rate, not better. For the untailored toric code, concentrating "
+                    "the error on the Z type loads almost all of it onto a single decoding graph, "
+                    "whereas depolarising noise spreads it across both, so the tolerable total rate "
+                    "does not improve with bias.",
+                ],
+                figures=[
+                    (
+                        "09_profile_comparison.png",
+                        "Figure 1. Code-capacity logical error rate versus physical error rate on a distance-eight toric code for heralded erasure, biased Pauli noise and depolarising noise. Erasure remains correctable up to a physical rate near one half; bias does not improve on depolarising.",
+                    ),
+                    (
+                        "09_threshold_erasure.png",
+                        "Figure 2. Erasure threshold sweep. The distance-four, six and eight curves cross at a physical error rate near one half, the analytically known erasure threshold of the toric code.",
+                    ),
+                ],
+            ),
+            Section(
+                "Discussion",
+                [
+                    "Reproducing the analytic one-half erasure threshold from a hand-built peeling "
+                    "decoder is the strongest validation available for the implementation, and it "
+                    "underlines why erasure conversion is so attractive: knowing where an error "
+                    "occurred is worth far more than knowing only that one occurred. The honest "
+                    "finding that bias alone does not help the untailored toric code is the most "
+                    "instructive part of the study, because it makes clear that the benefit of "
+                    "biased noise must be unlocked by a code and decoder designed to exploit it, "
+                    "such as the XZZX surface code, rather than arising automatically.",
+                    "The analysis is restricted to the code-capacity model and so does not quote "
+                    "circuit-level thresholds. Extending the biased-noise track to bias-tailored "
+                    "codes and the erasure track to a circuit-level syndrome-extraction schedule "
+                    "with measurement noise are the natural directions for future work.",
+                ],
+            ),
+        ],
+        references=[DELFOSSE_ZEMOR, STACE_BARRETT, TUCKETT, STIM, PYMATCHING],
+    ),
+    # -----------------------------------------------------------------
+    # 10. active-volume-compiler
+    # -----------------------------------------------------------------
+    Doc(
+        slug="10_active_volume_compiler",
+        title="Optimising the Magic-State Factory Ratio to Minimise Spacetime Volume",
+        repo_url="https://github.com/afogelis/active-volume-compiler",
+        abstract=(
+            "A running fault-tolerant algorithm spends most of its physical qubits not on logical "
+            "data but on the magic-state factories that supply its non-Clifford gates. A "
+            "transparent resource compiler was built to map a Clifford+T circuit onto a "
+            "surface-code lattice-surgery layout and to optimise the number of factories. The "
+            "circuit is reduced to its fault-tolerance-relevant summary - logical qubit count, "
+            "T-count, T-depth and peak parallel T-demand - by an as-soon-as-possible scheduler, and "
+            "the layout is costed in surface-code tiles. The runtime is the larger of the time to "
+            "execute the logical layers and the time to produce every magic state, so the "
+            "architecture is either data-limited or factory-limited. Scanning the factory count "
+            "revealed a clear interior minimum of the spacetime volume, located exactly at the "
+            "crossover between the two regimes, demonstrating a quantitative answer to how many "
+            "factories a computation should provision."
+        ),
+        sections=[
+            Section(
+                "Introduction",
+                [
+                    "Surface-code computation proceeds by lattice surgery on logical patches, "
+                    "consuming distilled magic states to implement the non-Clifford gates that give "
+                    "quantum computation its power. Magic-state distillation is expensive, and the "
+                    "factories that perform it occupy a large fraction of the device; provisioning "
+                    "them is therefore a central architectural decision. Too few factories and the "
+                    "computation stalls waiting for magic states; too many and idle factory tiles "
+                    "inflate the footprint.",
+                    "This work built a compiler pass that turns a logical circuit into a "
+                    "physical-qubit and runtime budget and then optimises the factory ratio, in "
+                    "order to demonstrate, with a transparent cost model, that a volume-optimal "
+                    "number of factories exists and where it lies.",
+                ],
+            ),
+            Section(
+                "Materials and Methods",
+                [
+                    "A Clifford+T circuit was represented as a flat gate list and reduced to a cost "
+                    "summary by an as-soon-as-possible scheduler that places each gate in the first "
+                    "layer after the latest layer touching any of its qubits; non-Clifford gates "
+                    "were charged their standard T-count, one for a T gate and seven for a Toffoli. "
+                    "The scheduler yields the T-count, the T-depth, the peak per-layer T-demand and "
+                    "the total logical depth.",
+                    "The layout was costed in surface-code tiles of two times the distance squared "
+                    "physical qubits each: logical data and routing occupy a fixed number of tiles "
+                    "per logical qubit, and each magic-state factory occupies a fixed number of "
+                    "tiles and emits one T-state every few code cycles. The runtime in cycles was "
+                    "taken as the maximum of the logic-limited time, the logical depth times the "
+                    "distance, and the factory-limited time, the T-count times the factory period "
+                    "divided by the number of factories. Spacetime volume was the physical-qubit "
+                    "footprint times the runtime in cycles, and the factory count minimising it was "
+                    "found by scanning. All parameters are overridable and set to order-of-magnitude "
+                    "literature values.",
+                ],
+            ),
+            Section(
+                "Results",
+                [
+                    "For a T-heavy benchmark consuming one million magic states, the spacetime "
+                    "volume fell steeply as factories were added while the computation was "
+                    "factory-limited, reached a minimum, and then rose linearly as further idle "
+                    "factories only added area. The optimum for this benchmark fell at a few hundred "
+                    "factories, at a footprint of roughly two million physical qubits.",
+                    "Decomposing the runtime made the mechanism explicit. The factory-limited time "
+                    "falls inversely with the number of factories while the logic-limited time is a "
+                    "constant floor; the actual runtime is their maximum, and the volume-optimal "
+                    "factory count sits exactly at their crossover, where buying more factories "
+                    "stops shortening the computation and only enlarges it.",
+                ],
+                figures=[
+                    (
+                        "10_volume_vs_factories.png",
+                        "Figure 1. Spacetime volume versus number of magic-state factories for a T-heavy benchmark. The volume is minimised at an interior optimum (marked), between the factory-limited and data-limited regimes.",
+                    ),
+                    (
+                        "10_runtime_breakdown.png",
+                        "Figure 2. Runtime decomposed into the factory-limited time, which falls inversely with factory count, and the logic-limited floor. The actual runtime is their maximum, and the volume optimum lies at their crossover.",
+                    ),
+                ],
+            ),
+            Section(
+                "Discussion",
+                [
+                    "The existence of an interior volume optimum, and its location at the "
+                    "factory/logic crossover, is the quantitative lesson: a fault-tolerant "
+                    "architecture should provision just enough factories to make magic-state "
+                    "production keep pace with the logical circuit, and no more. Expressing the "
+                    "trade-off through a transparent tile-based model makes the answer inspectable "
+                    "and easy to re-run under different hardware assumptions.",
+                    "The model is an architecture-level estimator, not a placement-and-routing "
+                    "compiler: it does not lay out individual patches, schedule lattice-surgery "
+                    "operations cycle by cycle, or implement the full active-volume accounting of "
+                    "Litinski and Nickerson. It is intended to capture the shape of the trade-off "
+                    "rather than to certify a specific device's qubit count. A cycle-accurate "
+                    "scheduler and an explicit distillation-factory model are the natural next "
+                    "steps.",
+                ],
+            ),
+        ],
+        references=[LITINSKI_GAME, LITINSKI_MAGIC, LITINSKI_NICKERSON, FOWLER],
     ),
 ]
 

@@ -1,4 +1,4 @@
-# The seven project repositories are independent git repos, published separately.
+# The project repositories are independent git repos, published separately.
 surface-code-simulator/
 decoder-benchmark/
 ml-qec-decoder/
@@ -6,6 +6,9 @@ qec-dashboard/
 fault-tolerance-economics/
 google-surface-code-reproduction/
 decoder-accuracy-reproduction/
+qldpc-builder/
+qec-noise-profiles/
+active-volume-compiler/
 
 # Environment / build
 .venv/

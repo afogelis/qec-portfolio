@@ -1,9 +1,9 @@
 # Quantum Error Correction Portfolio
 
-A seven-part portfolio of quantum-error-correction software, built to demonstrate research-engineering
+A ten-part portfolio of quantum-error-correction software, built to demonstrate research-engineering
 ability across simulation, decoding algorithms, machine learning, observability, resource modelling,
-and reproduction of landmark results. Every repository is independently installable, tested, and
-CI-ready, and the later repositories build on the earlier ones.
+reproduction of landmark results, and the frontier topics of qLDPC codes, hardware-realistic noise,
+and fault-tolerant compilation. Every repository is independently installable, tested, and CI-ready.
 
 Common stack: [Stim](https://github.com/quantumlib/Stim) (stabilizer simulation),
 [PyMatching](https://pymatching.readthedocs.io/) (MWPM), Pydantic v2 typed configs, pytest, and
@@ -21,8 +21,9 @@ across four Python versions.
 decoder stack. The foundational simulator (repo 1) is an *experiment pipeline* built on Stim and
 PyMatching, not a re-implementation of them. The genuinely algorithmic contribution is the **exact
 maximum-likelihood decoder** in repo 7, which measures how far minimum-weight perfect matching sits
-from optimal without any Monte Carlo sampling error. Engineering trade-offs (including why this is
-seven repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+from optimal without any Monte Carlo sampling error, and the **from-scratch peeling decoder** in repo
+9, which reproduces the analytic 0.5 erasure threshold. Engineering trade-offs (including why this is
+ten repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## The repositories
 
@@ -47,12 +48,23 @@ build on.
 | 4 | [`ml-qec-decoder`](ml-qec-decoder/) | A controlled negative study: when do tabular/geometry-aware ML decoders fail against MWPM? | Calibrated finding: ML competitive at d=3, fails at d=5. |
 | 3 | [`qec-dashboard`](qec-dashboard/) | Streamlit artifact viewer over simulation/benchmark outputs (demo/observability). | Decoupled JSON data contracts + bundled sample data. |
 
+### Frontier extensions (qLDPC, noise, compilation)
+
+These are independent, advanced topics that round out the portfolio beyond the surface code.
+
+| # | Repository | What it does | Highlight |
+|---|-----------|--------------|-----------|
+| 8 | [`qldpc-builder`](https://github.com/afogelis/qldpc-builder) | Build bivariate/generalized-bicycle qLDPC codes; decode with a from-scratch BP+OSD; benchmark encoding rate vs the surface code. | High-rate codes match the surface baseline's logical error rate at several times the rate. |
+| 9 | [`qec-noise-profiles`](https://github.com/afogelis/qec-noise-profiles) | Biased Pauli noise (weighted matching) and heralded erasure (from-scratch peeling) on the toric code. | Reproduces the analytic 0.5 erasure threshold vs ~0.16 depolarizing. |
+| 10 | [`active-volume-compiler`](https://github.com/afogelis/active-volume-compiler) | Compile a Clifford+T circuit to a surface-code layout and optimise the magic-state factory ratio. | Volume-optimal factory count at the factory/logic runtime crossover. |
+
 ## Suggested reading order
 
-For a reviewer with limited time: **7 -> 6 -> 2 -> 1 -> 5 -> 4 -> 3**. Repos 7 and 6 show the
-ability to reproduce published research and implement an optimal decoder; 2 and 1 show the core
-decoding and simulation engineering; 5 and 4 show quantitative modelling and an honest ML study;
-3 shows productisation.
+For a reviewer with limited time: **7 -> 6 -> 9 -> 8 -> 2 -> 1 -> 10 -> 5 -> 4 -> 3**. Repos 7 and
+6 reproduce published research and implement an optimal decoder; 9 and 8 implement from-scratch
+qLDPC/erasure decoders with analytically-checkable thresholds; 2 and 1 show the core decoding and
+simulation engineering; 10 and 5 show fault-tolerant compilation and quantitative modelling; 4 and 3
+show an honest ML study and productisation.
 
 ## Dependency graph
 
@@ -67,7 +79,13 @@ flowchart TD
   P1 --> P3[qec-dashboard]
   P2 --> P3
   P4 --> P3
+  P8[qldpc-builder]
+  P9[qec-noise-profiles]
+  P10[active-volume-compiler]
 ```
+
+Repos 8, 9 and 10 are deliberately standalone: each is self-contained (its own code construction,
+decoders and resource model) so it can be read and run without the surface-code foundation.
 
 ## Quick start
 
@@ -93,6 +111,9 @@ All repositories pass their test suites locally (Python 3.10-3.14):
 - fault-tolerance-economics: 7 passed
 - google-surface-code-reproduction: 4 passed
 - decoder-accuracy-reproduction: 4 passed
+- qldpc-builder: 21 passed
+- qec-noise-profiles: 18 passed
+- active-volume-compiler: 10 passed
 
 ## Write-ups
 
@@ -110,6 +131,9 @@ each with embedded result figures:
 | 5 | Fault-tolerance economics | [md](writeups/md/05_fault_tolerance_economics.md) | [docx](writeups/docx/05_fault_tolerance_economics.docx) |
 | 6 | Google reproduction | [md](writeups/md/06_google_reproduction.md) | [docx](writeups/docx/06_google_reproduction.docx) |
 | 7 | Decoder accuracy reproduction | [md](writeups/md/07_decoder_accuracy_reproduction.md) | [docx](writeups/docx/07_decoder_accuracy_reproduction.docx) |
+| 8 | qLDPC builder | [md](writeups/md/08_qldpc_builder.md) | [docx](writeups/docx/08_qldpc_builder.docx) |
+| 9 | QEC noise profiles | [md](writeups/md/09_qec_noise_profiles.md) | [docx](writeups/docx/09_qec_noise_profiles.docx) |
+| 10 | Active volume compiler | [md](writeups/md/10_active_volume_compiler.md) | [docx](writeups/docx/10_active_volume_compiler.docx) |
 
 All write-ups are regenerated from [`writeups/generate_writeups.py`](writeups/generate_writeups.py).
 

@@ -51,14 +51,23 @@ dependencies = [
 | `fault-tolerance-economics` | — | Self-contained resource model. |
 | `google-surface-code-reproduction` | `surface-code-simulator` | Uses the simulator to extract logical error per cycle. |
 | `decoder-accuracy-reproduction` | `surface-code-simulator`, `decoder-benchmark` | Validates the benchmarked MWPM decoder against an exact optimum. |
+| `qldpc-builder` | — | Standalone: own GF(2) code construction and BP+OSD decoder. |
+| `qec-noise-profiles` | — | Standalone: own toric code, weighted matching and peeling decoder. |
+| `active-volume-compiler` | — | Standalone: own circuit model and resource estimator. |
+
+The three frontier repositories (8-10) are deliberately **standalone**: each carries its own code
+construction, decoders and resource model so it can be read and run in isolation. They share the
+portfolio's engineering conventions but take no dependency on the surface-code foundation.
 
 ## Integration testing across repositories
 
 Because the repos are separate, an [integration workflow](../.github/workflows/integration.yml) in
 this landing repository installs the core chain (`surface-code-simulator` ->
 `decoder-benchmark` -> `decoder-accuracy-reproduction`) in dependency order and runs a smoke test.
-This proves the published packages still wire together despite living in separate repositories --
-the main risk the monorepo critique correctly identifies.
+The same workflow also installs the three standalone frontier packages and verifies that each
+imports and runs a minimal end-to-end check in the shared environment. This proves the published
+packages still wire together (and coexist) despite living in separate repositories -- the main risk
+the monorepo critique correctly identifies.
 
 ## Shared conventions
 

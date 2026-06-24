@@ -24,5 +24,10 @@ jobs:
           pip install --no-deps "git+https://github.com/afogelis/surface-code-simulator.git@main"
           pip install --no-deps "git+https://github.com/afogelis/decoder-benchmark.git@main"
           pip install --no-deps "git+https://github.com/afogelis/decoder-accuracy-reproduction.git@main"
+      - name: Install standalone frontier packages (repos 8-10, from main)
+        run: |
+          pip install --no-deps "git+https://github.com/afogelis/qldpc-builder.git@main"
+          pip install --no-deps "git+https://github.com/afogelis/qec-noise-profiles.git@main"
+          pip install --no-deps "git+https://github.com/afogelis/active-volume-compiler.git@main"
       - name: Run cross-repository smoke test
         run: python scripts/integration_smoke.py
