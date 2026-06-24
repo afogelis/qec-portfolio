@@ -227,7 +227,7 @@ DOCS: list[Doc] = [
         repo_url="https://github.com/afogelis/qec-portfolio",
         abstract=(
             "This document introduces a ten-part software portfolio in quantum error correction "
-            "(QEC). Its flagship result is an exact, sampling-free measurement of how far the "
+            "(QEC). Its central result is an exact, sampling-free measurement of how far the "
             "standard minimum-weight perfect matching decoder sits from the provably optimal "
             "maximum-likelihood decoder: by enumerating every error pattern of small surface codes, "
             "matching is shown to be exactly optimal at distance three and only slightly "
@@ -237,8 +237,8 @@ DOCS: list[Doc] = [
             "use the same physics to estimate the physical-qubit cost of a cryptographically "
             "relevant computation. Each component is an independent, installable, tested and "
             "continuously integrated Python package; the later components depend on the earlier "
-            "ones. Further headline results include a circuit-level threshold near 0.6%, a "
-            "quantitative demonstration that plain belief propagation is dominated on the surface "
+            "ones. Further results include a circuit-level threshold near 0.6%, a "
+            "quantitative result that plain belief propagation is dominated on the surface "
             "code by matching-based decoders, a calibrated reproduction of the roughly "
             "twenty-million-qubit, eight-hour estimate for Shor's algorithm on RSA-2048, and a "
             "simulation reproduction of the error-suppression scaling reported by Google in 2023 "
@@ -262,8 +262,7 @@ DOCS: list[Doc] = [
                     "the physics of stabiliser codes and thresholds, the algorithmics of decoding, "
                     "the statistics of rare-event estimation, and the software engineering needed "
                     "to make all of this reproducible.",
-                    "This portfolio was built to demonstrate that breadth as a coherent body of "
-                    "work rather than as isolated scripts. It is organized as ten independent "
+                    "The portfolio spans that breadth across ten independent "
                     "repositories, the first seven connected by explicit dependencies into a "
                     "pipeline from first-principles simulation to decision-ready resource "
                     "estimates, and three further standalone repositories covering qLDPC codes, "
@@ -315,11 +314,9 @@ DOCS: list[Doc] = [
                     "tests across Python 3.10 through 3.13. Randomness is seeded so that reported "
                     "numbers are reproducible, and the figures in each repository are regenerated "
                     "from the committed example scripts.",
-                    "These practices were not cosmetic. Continuous integration on a clean checkout "
-                    "caught a packaging defect that local testing had masked, and the discipline of "
-                    "verifying every citation surfaced and corrected an attribution error in one of "
-                    "the reproduction repositories. The portfolio is intended to read as "
-                    "production-quality research software, not as a notebook dump.",
+                    "Continuous integration on a clean checkout caught a packaging defect that "
+                    "local testing had masked, and verification of every citation corrected an "
+                    "attribution error in one of the reproduction repositories.",
                 ],
             ),
             Section(
@@ -333,10 +330,9 @@ DOCS: list[Doc] = [
                     "propagation is dominated on the surface code: in a representative run, "
                     "minimum-weight perfect matching achieved the lowest mean logical error rate, "
                     "union-find was close on accuracy at near-linear cost, and belief propagation "
-                    "was worse on both accuracy and runtime. The machine-learning study reaches an "
-                    "honest, calibrated conclusion - learned decoders are competitive with matching "
-                    "at distance three but degrade sharply at distance five under a fixed training "
-                    "budget - rather than overclaiming.",
+                    "was worse on both accuracy and runtime. In the machine-learning study, learned "
+                    "decoders were competitive with matching at distance three but degraded sharply "
+                    "at distance five under a fixed training budget.",
                     "The economics model reproduces the canonical roughly twenty-million-qubit, "
                     "eight-hour estimate for factoring RSA-2048 with Shor's algorithm, identifies "
                     "the physical error rate as the dominant cost lever because it enters the "
@@ -352,13 +348,11 @@ DOCS: list[Doc] = [
             Section(
                 "Discussion",
                 [
-                    "Taken together, the repositories demonstrate the full loop a QEC researcher "
-                    "works in: building trustworthy simulations, implementing and critically "
-                    "comparing decoders, communicating results, and translating physics into "
-                    "strategic estimates. The deliberate scoping of the reproduction projects - "
-                    "reproducing methodology and qualitative conclusions in simulation rather than "
-                    "claiming to match hardware-calibrated absolute numbers - is itself a "
-                    "demonstration of scientific judgement.",
+                    "The repositories span first-principles simulation, decoder implementation and "
+                    "comparison, presentation of results, and the translation of physics into "
+                    "resource estimates. The reproduction projects were scoped to reproduce "
+                    "methodology and qualitative conclusions in simulation rather than to match "
+                    "hardware-calibrated absolute numbers.",
                     "The principal limitation shared across the portfolio is the noise model: a "
                     "single uniform depolarising rate stands in for the rich, correlated, "
                     "device-specific noise of real hardware. Natural extensions include biased and "
@@ -407,7 +401,7 @@ DOCS: list[Doc] = [
                     "a researcher benefits from a compact, end-to-end pipeline whose statistics are "
                     "easy to read and test. This work was undertaken to build such a pipeline and "
                     "to verify that it recovers the textbook threshold behavior, establishing a "
-                    "trustworthy base layer on which decoder comparisons, machine-learning "
+                    "base layer on which decoder comparisons, machine-learning "
                     "experiments and paper reproductions could be built.",
                 ],
             ),
@@ -663,14 +657,13 @@ DOCS: list[Doc] = [
             Section(
                 "Discussion",
                 [
-                    "Separating presentation from computation through a small data contract is the "
-                    "same discipline that underlies production observability stacks, and it pays "
-                    "off here in deployability and testing speed. The dashboard is intentionally "
-                    "read-only and static; it visualizes completed runs rather than streaming live "
-                    "results.",
+                    "Separating presentation from computation through a small data contract is a "
+                    "common pattern in production observability stacks; here it improves "
+                    "deployability and testing speed. The dashboard is read-only and static; it "
+                    "visualizes completed runs rather than streaming live results.",
                     "Future work includes streaming metrics from long-running sweeps, alerting when "
                     "an operating point drifts above threshold, and richer cross-filtering across "
-                    "decoders and code distances. The clean contract makes such extensions additive "
+                    "decoders and code distances. The data contract makes such extensions additive "
                     "rather than invasive.",
                 ],
             ),
@@ -690,15 +683,15 @@ DOCS: list[Doc] = [
             "convolutional network that reshapes the syndrome back onto its lattice - were "
             "implemented and compared head-to-head with minimum-weight perfect matching. Each model "
             "learns to predict the logical observable flip directly from a syndrome and plugs into "
-            "the decoder-benchmark framework for a like-for-like comparison. The study was designed "
-            "to test honestly whether learned decoders keep up with matching as the code grows. "
-            "Under a fixed, realistic training budget the answer is that they do not: the learned "
+            "the decoder-benchmark framework for a like-for-like comparison. The study tested "
+            "whether learned decoders keep up with matching as the code grows. "
+            "Under a fixed training budget they did not: the learned "
             "decoders were competitive with matching only at distance three, and at distances five "
             "and seven every model, including the convolutional one, diverged upward in logical "
             "error rate while matching continued to suppress it. The geometry-aware inductive bias "
-            "of the convolutional model bought only a marginal edge over the tabular models and did "
-            "not prevent the collapse. The result is reported as a calibrated negative finding "
-            "about when learned decoding is the wrong tool, rather than a cherry-picked win."
+            "of the convolutional model gave only a marginal edge over the tabular models and did "
+            "not prevent the divergence. The result is a negative finding identifying the regime in "
+            "which learned decoding underperforms matching."
         ),
         sections=[
             Section(
@@ -775,12 +768,12 @@ DOCS: list[Doc] = [
                     "For circuit-level depolarising noise the matching graph is an excellent model "
                     "of the error process, so a learned decoder is competing against a "
                     "near-optimal baseline; matching also exploits the known error model rather "
-                    "than having to learn it from data. The honest conclusion is therefore not that "
+                    "than having to learn it from data. The conclusion is therefore not that "
                     "machine learning beats matching, but that it is competitive only where the "
                     "matching graph is a poor model - strongly correlated or non-graphlike noise - "
                     "or where training data are abundant relative to the code distance.",
-                    "That even the geometry-aware convolutional model fails to track matching is "
-                    "the most informative part of the study: the right architecture does not "
+                    "That even the geometry-aware convolutional model fails to track matching "
+                    "indicates that the right architecture does not "
                     "substitute for the missing data when logical failures are exponentially rare "
                     "at large distance. The fixed training budget is the central limitation, and it "
                     "is the realistic one. Future work includes scaling training data with "
@@ -924,7 +917,7 @@ DOCS: list[Doc] = [
             "portfolio's Stim and matching simulator, for code distances three, five and seven at a "
             "representative below-threshold physical error rate. The simulation reproduced the "
             "qualitative suppression with an error-suppression factor near 2.2 between successive "
-            "distances. Consistent with honest scoping, device-specific absolute error rates were "
+            "distances. Device-specific absolute error rates were "
             "not reproduced, because a single uniform depolarising model was used in place of "
             "Google's calibrated per-component noise; the published values are shown only for "
             "context."
@@ -988,10 +981,9 @@ DOCS: list[Doc] = [
                 [
                     "The simulation reproduces the qualitative result that matters - error "
                     "suppression by scaling - and recovers a suppression factor in the same range "
-                    "as the experiment. The deliberate decision not to claim reproduction of the "
-                    "absolute numbers is the scientifically honest position: matching "
-                    "hardware-calibrated values would require the device's detailed noise model, "
-                    "which is not available in this setting.",
+                    "as the experiment. The absolute numbers were not claimed to be reproduced: "
+                    "matching hardware-calibrated values would require the device's detailed noise "
+                    "model, which is not available in this setting.",
                     "Limitations include the uniform depolarising noise model, the omission of "
                     "leakage, crosstalk and non-Markovian effects present in hardware, and the use "
                     "of matching as the sole decoder. Future work includes substituting a "
@@ -1113,7 +1105,7 @@ DOCS: list[Doc] = [
             "matched the toric baseline's logical error rate while encoding several times as many "
             "logical qubits per physical qubit, illustrating the qLDPC rate advantage. The block "
             "logical error rate of the highest-rate code was correspondingly larger because it "
-            "aggregates over more logical qubits, an honestly reported trade-off."
+            "aggregates over more logical qubits."
         ),
         sections=[
             Section(
@@ -1128,7 +1120,7 @@ DOCS: list[Doc] = [
                     "thresholds at a fraction of the overhead.",
                     "This work was undertaken to build those codes from first principles and to "
                     "decode them with the decoder they were designed for, belief propagation with "
-                    "ordered-statistics post-processing, in order to demonstrate the rate advantage "
+                    "ordered-statistics post-processing, in order to quantify the rate advantage "
                     "of qLDPC codes over the surface code on a common, reproducible footing.",
                 ],
             ),
@@ -1234,9 +1226,9 @@ DOCS: list[Doc] = [
                     "profile changes what a code can tolerate is therefore a practical question of "
                     "first importance.",
                     "This work modeled biased Pauli noise and heralded erasure on the toric code "
-                    "and decoded each with the appropriate decoder, in order to make the very "
-                    "different thresholds of the two regimes vivid and reproducible, and to test "
-                    "honestly whether bias alone helps an untailored code.",
+                    "and decoded each with the appropriate decoder, in order to compare the very "
+                    "different thresholds of the two regimes on a reproducible footing, and to test "
+                    "whether bias alone helps an untailored code.",
                 ],
             ),
             Section(
@@ -1292,12 +1284,11 @@ DOCS: list[Doc] = [
                 "Discussion",
                 [
                     "Reproducing the analytic one-half erasure threshold from a hand-built peeling "
-                    "decoder is the strongest validation available for the implementation, and it "
-                    "underlines why erasure conversion is so attractive: knowing where an error "
-                    "occurred is worth far more than knowing only that one occurred. The honest "
-                    "finding that bias alone does not help the untailored toric code is the most "
-                    "instructive part of the study, because it makes clear that the benefit of "
-                    "biased noise must be unlocked by a code and decoder designed to exploit it, "
+                    "decoder validates the implementation, and it illustrates the advantage of "
+                    "erasure conversion: the decoder uses the known location of each erased qubit "
+                    "rather than only its occurrence. The finding that bias alone does not help the "
+                    "untailored toric code indicates that the benefit of "
+                    "biased noise must be obtained with a code and decoder designed to exploit it, "
                     "such as the XZZX surface code, rather than arising automatically.",
                     "The analysis is restricted to the code-capacity model and so does not quote "
                     "circuit-level thresholds. Extending the biased-noise track to bias-tailored "
@@ -1318,15 +1309,15 @@ DOCS: list[Doc] = [
         abstract=(
             "A running fault-tolerant algorithm spends most of its physical qubits not on logical "
             "data but on the magic-state factories that supply its non-Clifford gates. A "
-            "transparent resource compiler was built to map a Clifford+T circuit onto a "
-                    "surface-code lattice-surgery layout and to optimize the number of factories. The "
+            "resource compiler was built to map a Clifford+T circuit onto a "
+            "surface-code lattice-surgery layout and to optimize the number of factories. The "
             "circuit is reduced to its fault-tolerance-relevant summary - logical qubit count, "
             "T-count, T-depth and peak parallel T-demand - by an as-soon-as-possible scheduler, and "
             "the layout is costed in surface-code tiles. The runtime is the larger of the time to "
             "execute the logical layers and the time to produce every magic state, so the "
             "architecture is either data-limited or factory-limited. Scanning the factory count "
-            "revealed a clear interior minimum of the spacetime volume, located exactly at the "
-            "crossover between the two regimes, demonstrating a quantitative answer to how many "
+            "revealed an interior minimum of the spacetime volume, located at the "
+            "crossover between the two regimes, giving a quantitative estimate of how many "
             "factories a computation should provision."
         ),
         sections=[
@@ -1342,8 +1333,8 @@ DOCS: list[Doc] = [
                     "inflate the footprint.",
                     "This work built a compiler pass that turns a logical circuit into a "
                     "physical-qubit and runtime budget and then optimizes the factory ratio, in "
-                    "order to demonstrate, with a transparent cost model, that a volume-optimal "
-                    "number of factories exists and where it lies.",
+                    "order to locate, with an explicit cost model, the volume-optimal "
+                    "number of factories.",
                 ],
             ),
             Section(

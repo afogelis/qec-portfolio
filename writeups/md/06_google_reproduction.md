@@ -6,7 +6,7 @@ Repository: <https://github.com/afogelis/google-surface-code-reproduction>
 
 ## Abstract
 
-The central scaling claim of Google Quantum AI's 2023 experiment - that below threshold, increasing the surface-code distance suppresses the logical error per cycle - was reproduced in simulation. Logical error per cycle was extracted by fitting the decay of logical fidelity with the number of error-correction rounds, using the portfolio's Stim and matching simulator, for code distances three, five and seven at a representative below-threshold physical error rate. The simulation reproduced the qualitative suppression with an error-suppression factor near 2.2 between successive distances. Consistent with honest scoping, device-specific absolute error rates were not reproduced, because a single uniform depolarising model was used in place of Google's calibrated per-component noise; the published values are shown only for context.
+The central scaling claim of Google Quantum AI's 2023 experiment - that below threshold, increasing the surface-code distance suppresses the logical error per cycle - was reproduced in simulation. Logical error per cycle was extracted by fitting the decay of logical fidelity with the number of error-correction rounds, using the portfolio's Stim and matching simulator, for code distances three, five and seven at a representative below-threshold physical error rate. The simulation reproduced the qualitative suppression with an error-suppression factor near 2.2 between successive distances. Device-specific absolute error rates were not reproduced, because a single uniform depolarising model was used in place of Google's calibrated per-component noise; the published values are shown only for context.
 
 ## Introduction
 
@@ -34,7 +34,7 @@ The published experimental values, near three percent per cycle, were plotted al
 
 ## Discussion
 
-The simulation reproduces the qualitative result that matters - error suppression by scaling - and recovers a suppression factor in the same range as the experiment. The deliberate decision not to claim reproduction of the absolute numbers is the scientifically honest position: matching hardware-calibrated values would require the device's detailed noise model, which is not available in this setting.
+The simulation reproduces the qualitative result that matters - error suppression by scaling - and recovers a suppression factor in the same range as the experiment. The absolute numbers were not claimed to be reproduced: matching hardware-calibrated values would require the device's detailed noise model, which is not available in this setting.
 
 Limitations include the uniform depolarising noise model, the omission of leakage, crosstalk and non-Markovian effects present in hardware, and the use of matching as the sole decoder. Future work includes substituting a calibrated component-wise noise model and studying the more advanced decoders the experiment also considered.
 

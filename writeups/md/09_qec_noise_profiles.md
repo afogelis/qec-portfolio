@@ -12,7 +12,7 @@ Real qubits do not fail with symmetric depolarising noise: they dephase far more
 
 The threshold of a quantum error-correcting code is quoted for a particular noise model, almost always symmetric depolarising noise, yet real devices are strongly biased toward dephasing and some can convert leakage or loss into heralded erasures whose location the decoder learns. How much the noise profile changes what a code can tolerate is therefore a practical question of first importance.
 
-This work modeled biased Pauli noise and heralded erasure on the toric code and decoded each with the appropriate decoder, in order to make the very different thresholds of the two regimes vivid and reproducible, and to test honestly whether bias alone helps an untailored code.
+This work modeled biased Pauli noise and heralded erasure on the toric code and decoded each with the appropriate decoder, in order to compare the very different thresholds of the two regimes on a reproducible footing, and to test whether bias alone helps an untailored code.
 
 ## Materials and Methods
 
@@ -36,7 +36,7 @@ The comparison at fixed distance revealed a non-obvious result. Biased noise at 
 
 ## Discussion
 
-Reproducing the analytic one-half erasure threshold from a hand-built peeling decoder is the strongest validation available for the implementation, and it underlines why erasure conversion is so attractive: knowing where an error occurred is worth far more than knowing only that one occurred. The honest finding that bias alone does not help the untailored toric code is the most instructive part of the study, because it makes clear that the benefit of biased noise must be unlocked by a code and decoder designed to exploit it, such as the XZZX surface code, rather than arising automatically.
+Reproducing the analytic one-half erasure threshold from a hand-built peeling decoder validates the implementation, and it illustrates the advantage of erasure conversion: the decoder uses the known location of each erased qubit rather than only its occurrence. The finding that bias alone does not help the untailored toric code indicates that the benefit of biased noise must be obtained with a code and decoder designed to exploit it, such as the XZZX surface code, rather than arising automatically.
 
 The analysis is restricted to the code-capacity model and so does not quote circuit-level thresholds. Extending the biased-noise track to bias-tailored codes and the erasure track to a circuit-level syndrome-extraction schedule with measurement noise are the natural directions for future work.
 

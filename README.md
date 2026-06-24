@@ -79,7 +79,7 @@ optimal decoder; the next two implement from-scratch qLDPC/erasure decoders with
 analytically-checkable thresholds; `decoder-benchmark` and `surface-code-simulator` show the core
 decoding and simulation engineering; `active-volume-compiler` and `fault-tolerance-economics` show
 fault-tolerant compilation and quantitative modeling; and `ml-qec-decoder` and `qec-dashboard` show
-an honest ML study and productization.
+a negative-result ML study and productization.
 
 ## Dependency graph
 

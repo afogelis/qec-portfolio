@@ -30,9 +30,9 @@ The dashboard presents five views: an overview of physical-versus-logical error 
 
 ## Discussion
 
-Separating presentation from computation through a small data contract is the same discipline that underlies production observability stacks, and it pays off here in deployability and testing speed. The dashboard is intentionally read-only and static; it visualizes completed runs rather than streaming live results.
+Separating presentation from computation through a small data contract is a common pattern in production observability stacks; here it improves deployability and testing speed. The dashboard is read-only and static; it visualizes completed runs rather than streaming live results.
 
-Future work includes streaming metrics from long-running sweeps, alerting when an operating point drifts above threshold, and richer cross-filtering across decoders and code distances. The clean contract makes such extensions additive rather than invasive.
+Future work includes streaming metrics from long-running sweeps, alerting when an operating point drifts above threshold, and richer cross-filtering across decoders and code distances. The data contract makes such extensions additive rather than invasive.
 
 ## References
 

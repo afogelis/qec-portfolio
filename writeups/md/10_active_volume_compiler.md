@@ -6,13 +6,13 @@ Repository: <https://github.com/afogelis/active-volume-compiler>
 
 ## Abstract
 
-A running fault-tolerant algorithm spends most of its physical qubits not on logical data but on the magic-state factories that supply its non-Clifford gates. A transparent resource compiler was built to map a Clifford+T circuit onto a surface-code lattice-surgery layout and to optimize the number of factories. The circuit is reduced to its fault-tolerance-relevant summary - logical qubit count, T-count, T-depth and peak parallel T-demand - by an as-soon-as-possible scheduler, and the layout is costed in surface-code tiles. The runtime is the larger of the time to execute the logical layers and the time to produce every magic state, so the architecture is either data-limited or factory-limited. Scanning the factory count revealed a clear interior minimum of the spacetime volume, located exactly at the crossover between the two regimes, demonstrating a quantitative answer to how many factories a computation should provision.
+A running fault-tolerant algorithm spends most of its physical qubits not on logical data but on the magic-state factories that supply its non-Clifford gates. A resource compiler was built to map a Clifford+T circuit onto a surface-code lattice-surgery layout and to optimize the number of factories. The circuit is reduced to its fault-tolerance-relevant summary - logical qubit count, T-count, T-depth and peak parallel T-demand - by an as-soon-as-possible scheduler, and the layout is costed in surface-code tiles. The runtime is the larger of the time to execute the logical layers and the time to produce every magic state, so the architecture is either data-limited or factory-limited. Scanning the factory count revealed an interior minimum of the spacetime volume, located at the crossover between the two regimes, giving a quantitative estimate of how many factories a computation should provision.
 
 ## Introduction
 
 Surface-code computation proceeds by lattice surgery on logical patches, consuming distilled magic states to implement the non-Clifford gates that give quantum computation its power. Magic-state distillation is expensive, and the factories that perform it occupy a large fraction of the device; provisioning them is therefore a central architectural decision. Too few factories and the computation stalls waiting for magic states; too many and idle factory tiles inflate the footprint.
 
-This work built a compiler pass that turns a logical circuit into a physical-qubit and runtime budget and then optimizes the factory ratio, in order to demonstrate, with a transparent cost model, that a volume-optimal number of factories exists and where it lies.
+This work built a compiler pass that turns a logical circuit into a physical-qubit and runtime budget and then optimizes the factory ratio, in order to locate, with an explicit cost model, the volume-optimal number of factories.
 
 ## Materials and Methods
 
