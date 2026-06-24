@@ -18,7 +18,7 @@ This work implemented union-find and belief-propagation decoders from scratch, r
 
 The detector error model emitted by each surface-code circuit was converted into parity-check and observable matrices shared by every decoder, ensuring that all decoders saw identical syndrome batches. Matching was performed with PyMatching. The union-find decoder implemented the Delfosse-Nickerson cluster-growth algorithm with spanning-forest peeling on the matching graph, which runs in almost-linear time. The belief-propagation decoder implemented the log-domain sum-product algorithm on the detector error model.
 
-Each decoder was profiled for accuracy (logical error rate), runtime (microseconds per shot) and peak memory (via allocation tracking) over the same shots. Runs were summarised in a ranked leaderboard and an accuracy-versus-runtime Pareto frontier. The reported configuration covered code distances three and five at physical error rates of 0.5%, 0.8%, 1.0% and 1.2% with five thousand shots per point and a fixed seed.
+Each decoder was profiled for accuracy (logical error rate), runtime (microseconds per shot) and peak memory (via allocation tracking) over the same shots. Runs were summarized in a ranked leaderboard and an accuracy-versus-runtime Pareto frontier. The reported configuration covered code distances three and five at physical error rates of 0.5%, 0.8%, 1.0% and 1.2% with five thousand shots per point and a fixed seed.
 
 ## Results
 

@@ -16,7 +16,7 @@ This work built a transparent model that turns explicit physical assumptions int
 
 ## Materials and Methods
 
-Logical resource requirements - the number of algorithmic logical qubits and the Toffoli count for Shor on RSA-2048, together with a factory and routing multiplier - were taken from Gidney and Ekera (2021). The surface-code overhead was modelled with the standard suppression law, in which the logical error per patch scales as roughly one tenth of the ratio of physical to threshold error rate raised to the power of half the distance plus one; a total error budget fixed the required code distance, and a rotated patch was costed at twice the distance squared minus one physical qubits.
+Logical resource requirements - the number of algorithmic logical qubits and the Toffoli count for Shor on RSA-2048, together with a factory and routing multiplier - were taken from Gidney and Ekera (2021). The surface-code overhead was modeled with the standard suppression law, in which the logical error per patch scales as roughly one tenth of the ratio of physical to threshold error rate raised to the power of half the distance plus one; a total error budget fixed the required code distance, and a rotated patch was costed at twice the distance squared minus one physical qubits.
 
 Runtime was estimated as the Toffoli count multiplied by a per-Toffoli time, calibrated so that the baseline profile reproduced the published figure. Hardware assumptions were captured in typed profiles, and a sensitivity sweep varied the physical error rate, cycle time and threshold to produce optimistic, baseline and conservative scenarios.
 
@@ -28,9 +28,9 @@ The sensitivity analysis showed that the physical error rate dominates the budge
 
 Extending the model across published estimates reproduced the falling cost of quantum factoring under comparable assumptions: from roughly one billion physical qubits (2012), to twenty million (Gidney and Ekera, 2019), to under one million (Gidney, 2025) - an approximately twentyfold reduction over the 2019 figure. The 2025 headline was reconstructed from its reported components rather than re-derived: cold yoked storage (1,280 logical qubits at 430 physical qubits each), hot storage (131 logical qubits at 1,352 each) and a compute region of 126 patches summed to 897,864 physical qubits, which the source rounds up to one million for slack. The reduction was attributed to three techniques: approximate residue arithmetic (fewer logical qubits), yoked surface codes (about threefold denser idle storage) and magic state cultivation (smaller distillation factories); the Toffoli count rose from about three billion to about 6.5 billion, a deliberate trade of time for space.
 
-![Figure 1. Sensitivity of the physical-qubit estimate to each modelling assumption. The physical error rate dominates because it enters the required code distance exponentially.](../figures/05_sensitivity.png)
+![Figure 1. Sensitivity of the physical-qubit estimate to each modeling assumption. The physical error rate dominates because it enters the required code distance exponentially.](../figures/05_sensitivity.png)
 
-*Figure 1. Sensitivity of the physical-qubit estimate to each modelling assumption. The physical error rate dominates because it enters the required code distance exponentially.*
+*Figure 1. Sensitivity of the physical-qubit estimate to each modeling assumption. The physical error rate dominates because it enters the required code distance exponentially.*
 
 ![Figure 2. Historical physical-qubit cost of factoring RSA-2048 under comparable hardware assumptions: about one billion qubits (2012), twenty million (2019), and one million (2025).](../figures/05_frontier.png)
 
@@ -40,7 +40,7 @@ Extending the model across published estimates reproduced the falling cost of qu
 
 Reproducing the canonical estimate from an independent, transparent model increases confidence in both the estimate and the model, and the dominance of the physical error rate clarifies where hardware effort yields the greatest leverage. The exercise also illustrates translating a physics result into a decision-ready figure with explicit, inspectable assumptions.
 
-The model is deliberately simplified: it abstracts magic-state distillation, routing congestion and lattice-surgery scheduling into multipliers and a calibrated per-Toffoli time rather than modelling them in detail. Future work includes an explicit distillation-factory model, a scheduling-aware runtime estimate, and profiles for additional hardware modalities such as neutral atoms and trapped ions.
+The model is deliberately simplified: it abstracts magic-state distillation, routing congestion and lattice-surgery scheduling into multipliers and a calibrated per-Toffoli time rather than modeling them in detail. Future work includes an explicit distillation-factory model, a scheduling-aware runtime estimate, and profiles for additional hardware modalities such as neutral atoms and trapped ions.
 
 ## References
 

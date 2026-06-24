@@ -246,8 +246,8 @@ DOCS: list[Doc] = [
             "portfolio to the frontier beyond the surface code: a from-scratch builder and BP+OSD "
             "decoder for bivariate-bicycle qLDPC codes, a study of biased noise and heralded "
             "erasure that reproduces the analytic one-half erasure threshold with a from-scratch "
-            "peeling decoder, and a fault-tolerant resource compiler that optimises the "
-            "magic-state factory ratio to minimise spacetime volume."
+            "peeling decoder, and a fault-tolerant resource compiler that optimizes the "
+            "magic-state factory ratio to minimize spacetime volume."
         ),
         sections=[
             Section(
@@ -256,19 +256,19 @@ DOCS: list[Doc] = [
                     "Quantum error correction is the central engineering obstacle between today's "
                     "noisy quantum processors and large-scale fault-tolerant computation. The "
                     "surface code is the leading candidate for near-term hardware because it "
-                    "requires only nearest-neighbour two-qubit gates on a two-dimensional lattice "
+                    "requires only nearest-neighbor two-qubit gates on a two-dimensional lattice "
                     "and tolerates a comparatively high physical error rate. Understanding the "
                     "surface code in depth therefore requires fluency across several disciplines: "
                     "the physics of stabiliser codes and thresholds, the algorithmics of decoding, "
                     "the statistics of rare-event estimation, and the software engineering needed "
                     "to make all of this reproducible.",
                     "This portfolio was built to demonstrate that breadth as a coherent body of "
-                    "work rather than as isolated scripts. It is organised as ten independent "
+                    "work rather than as isolated scripts. It is organized as ten independent "
                     "repositories, the first seven connected by explicit dependencies into a "
                     "pipeline from first-principles simulation to decision-ready resource "
                     "estimates, and three further standalone repositories covering qLDPC codes, "
                     "hardware-realistic noise and fault-tolerant compilation. The remainder of this "
-                    "document summarises the arc, the engineering standards shared across the "
+                    "document summarizes the arc, the engineering standards shared across the "
                     "repositories, and the principal quantitative findings.",
                 ],
             ),
@@ -406,7 +406,7 @@ DOCS: list[Doc] = [
                     "Many high-quality libraries exist for stabiliser simulation and decoding, but "
                     "a researcher benefits from a compact, end-to-end pipeline whose statistics are "
                     "easy to read and test. This work was undertaken to build such a pipeline and "
-                    "to verify that it recovers the textbook threshold behaviour, establishing a "
+                    "to verify that it recovers the textbook threshold behavior, establishing a "
                     "trustworthy base layer on which decoder comparisons, machine-learning "
                     "experiments and paper reproductions could be built.",
                 ],
@@ -528,7 +528,7 @@ DOCS: list[Doc] = [
                     "the log-domain sum-product algorithm on the detector error model.",
                     "Each decoder was profiled for accuracy (logical error rate), runtime "
                     "(microseconds per shot) and peak memory (via allocation tracking) over the "
-                    "same shots. Runs were summarised in a ranked leaderboard and an "
+                    "same shots. Runs were summarized in a ranked leaderboard and an "
                     "accuracy-versus-runtime Pareto frontier. The reported configuration covered "
                     "code distances three and five at physical error rates of 0.5%, 0.8%, 1.0% and "
                     "1.2% with five thousand shots per point and a fixed seed.",
@@ -638,7 +638,7 @@ DOCS: list[Doc] = [
                     "runs without the simulation dependencies.",
                     "Sample artifacts were bundled with the application so that it works out of the "
                     "box; an optional generator regenerates them from the upstream simulator and "
-                    "benchmark packages. Loader behaviour was covered by unit tests.",
+                    "benchmark packages. Loader behavior was covered by unit tests.",
                 ],
             ),
             Section(
@@ -666,7 +666,7 @@ DOCS: list[Doc] = [
                     "Separating presentation from computation through a small data contract is the "
                     "same discipline that underlies production observability stacks, and it pays "
                     "off here in deployability and testing speed. The dashboard is intentionally "
-                    "read-only and static; it visualises completed runs rather than streaming live "
+                    "read-only and static; it visualizes completed runs rather than streaming live "
                     "results.",
                     "Future work includes streaming metrics from long-running sweeps, alerting when "
                     "an operating point drifts above threshold, and richer cross-filtering across "
@@ -721,7 +721,7 @@ DOCS: list[Doc] = [
                 [
                     "Four models were implemented behind a common base class: a random forest and a "
                     "gradient-boosted tree ensemble; a feed-forward neural network trained with "
-                    "binary cross-entropy loss, the Adam optimiser and early stopping on a "
+                    "binary cross-entropy loss, the Adam optimizer and early stopping on a "
                     "validation split; and a geometry-aware convolutional network. The "
                     "convolutional model recovers each detector's lattice coordinate from the Stim "
                     "circuit, scatters the binary detection events into a time-by-height-by-width "
@@ -836,7 +836,7 @@ DOCS: list[Doc] = [
                     "Logical resource requirements - the number of algorithmic logical qubits and "
                     "the Toffoli count for Shor on RSA-2048, together with a factory and routing "
                     "multiplier - were taken from Gidney and Ekera (2021). The surface-code "
-                    "overhead was modelled with the standard suppression law, in which the logical "
+                    "overhead was modeled with the standard suppression law, in which the logical "
                     "error per patch scales as roughly one tenth of the ratio of physical to "
                     "threshold error rate raised to the power of half the distance plus one; a "
                     "total error budget fixed the required code distance, and a rotated patch was "
@@ -882,7 +882,7 @@ DOCS: list[Doc] = [
                 figures=[
                     (
                         "05_sensitivity.png",
-                        "Figure 1. Sensitivity of the physical-qubit estimate to each modelling assumption. The physical error rate dominates because it enters the required code distance exponentially.",
+                        "Figure 1. Sensitivity of the physical-qubit estimate to each modeling assumption. The physical error rate dominates because it enters the required code distance exponentially.",
                     ),
                     (
                         "05_frontier.png",
@@ -900,7 +900,7 @@ DOCS: list[Doc] = [
                     "decision-ready figure with explicit, inspectable assumptions.",
                     "The model is deliberately simplified: it abstracts magic-state distillation, "
                     "routing congestion and lattice-surgery scheduling into multipliers and a "
-                    "calibrated per-Toffoli time rather than modelling them in detail. Future work "
+                    "calibrated per-Toffoli time rather than modeling them in detail. Future work "
                     "includes an explicit distillation-factory model, a scheduling-aware runtime "
                     "estimate, and profiles for additional hardware modalities such as neutral "
                     "atoms and trapped ions.",
@@ -936,7 +936,7 @@ DOCS: list[Doc] = [
                     "In 2023 Google Quantum AI reported the first experimental demonstration that a "
                     "larger surface code can have a lower logical error rate than a smaller one, a "
                     "milestone for the field because it showed error suppression by scaling on real "
-                    "hardware. The result is naturally summarised by a suppression factor relating "
+                    "hardware. The result is naturally summarized by a suppression factor relating "
                     "the logical error per cycle at successive code distances.",
                     "A full hardware reproduction is impossible without the device, so this work "
                     "set out to reproduce the experiment's analysis methodology and its qualitative "
@@ -1212,8 +1212,8 @@ DOCS: list[Doc] = [
         abstract=(
             "Real qubits do not fail with symmetric depolarising noise: they dephase far more than "
             "they bit-flip, and some platforms can detect when a qubit is lost. Both regimes were "
-            "modelled on the toric code under the code-capacity model. Biased Pauli noise, "
-            "parameterised by a Z-bias, was decoded with bias-aware weighted minimum-weight "
+            "modeled on the toric code under the code-capacity model. Biased Pauli noise, "
+            "parameterized by a Z-bias, was decoded with bias-aware weighted minimum-weight "
             "matching, and heralded erasure was decoded with a from-scratch peeling decoder. The "
             "peeling decoder reproduced the analytically known erasure threshold of one half - the "
             "bond-percolation threshold of the lattice - which validates the implementation, while "
@@ -1233,7 +1233,7 @@ DOCS: list[Doc] = [
                     "heralded erasures whose location the decoder learns. How much the noise "
                     "profile changes what a code can tolerate is therefore a practical question of "
                     "first importance.",
-                    "This work modelled biased Pauli noise and heralded erasure on the toric code "
+                    "This work modeled biased Pauli noise and heralded erasure on the toric code "
                     "and decoded each with the appropriate decoder, in order to make the very "
                     "different thresholds of the two regimes vivid and reproducible, and to test "
                     "honestly whether bias alone helps an untailored code.",
@@ -1245,7 +1245,7 @@ DOCS: list[Doc] = [
                     "The distance-d toric code was constructed on a periodic square lattice with one "
                     "qubit per edge, giving star and plaquette stabilisers whose parity-check "
                     "matrices have column weight two and are therefore graph incidence matrices. "
-                    "Biased Pauli noise was parameterised by a total rate and a Z-bias, with a bias "
+                    "Biased Pauli noise was parameterized by a total rate and a Z-bias, with a bias "
                     "of one half recovering depolarising noise; each error type was decoded by "
                     "minimum-weight matching whose edge weights were set from the per-qubit marginal "
                     "flip probability, making the matching bias-aware. Heralded erasure replaced "
@@ -1313,13 +1313,13 @@ DOCS: list[Doc] = [
     # -----------------------------------------------------------------
     Doc(
         slug="10_active_volume_compiler",
-        title="Optimising the Magic-State Factory Ratio to Minimise Spacetime Volume",
+        title="Optimizing the Magic-State Factory Ratio to Minimize Spacetime Volume",
         repo_url="https://github.com/afogelis/active-volume-compiler",
         abstract=(
             "A running fault-tolerant algorithm spends most of its physical qubits not on logical "
             "data but on the magic-state factories that supply its non-Clifford gates. A "
             "transparent resource compiler was built to map a Clifford+T circuit onto a "
-            "surface-code lattice-surgery layout and to optimise the number of factories. The "
+                    "surface-code lattice-surgery layout and to optimize the number of factories. The "
             "circuit is reduced to its fault-tolerance-relevant summary - logical qubit count, "
             "T-count, T-depth and peak parallel T-demand - by an as-soon-as-possible scheduler, and "
             "the layout is costed in surface-code tiles. The runtime is the larger of the time to "
@@ -1341,7 +1341,7 @@ DOCS: list[Doc] = [
                     "computation stalls waiting for magic states; too many and idle factory tiles "
                     "inflate the footprint.",
                     "This work built a compiler pass that turns a logical circuit into a "
-                    "physical-qubit and runtime budget and then optimises the factory ratio, in "
+                    "physical-qubit and runtime budget and then optimizes the factory ratio, in "
                     "order to demonstrate, with a transparent cost model, that a volume-optimal "
                     "number of factories exists and where it lies.",
                 ],
@@ -1362,7 +1362,7 @@ DOCS: list[Doc] = [
                     "taken as the maximum of the logic-limited time, the logical depth times the "
                     "distance, and the factory-limited time, the T-count times the factory period "
                     "divided by the number of factories. Spacetime volume was the physical-qubit "
-                    "footprint times the runtime in cycles, and the factory count minimising it was "
+                    "footprint times the runtime in cycles, and the factory count minimizing it was "
                     "found by scanning. All parameters are overridable and set to order-of-magnitude "
                     "literature values.",
                 ],
@@ -1384,7 +1384,7 @@ DOCS: list[Doc] = [
                 figures=[
                     (
                         "10_volume_vs_factories.png",
-                        "Figure 1. Spacetime volume versus number of magic-state factories for a T-heavy benchmark. The volume is minimised at an interior optimum (marked), between the factory-limited and data-limited regimes.",
+                        "Figure 1. Spacetime volume versus number of magic-state factories for a T-heavy benchmark. The volume is minimized at an interior optimum (marked), between the factory-limited and data-limited regimes.",
                     ),
                     (
                         "10_runtime_breakdown.png",

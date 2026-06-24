@@ -18,7 +18,7 @@ The goal was a dashboard that an error-correction operations team would actually
 
 The dashboard depends only on a set of JSON schemas describing three artifacts: a threshold sweep, a decoder benchmark and a syndrome-statistics summary. Loader functions parse these artifacts into tabular frames, and the interface was implemented as a set of Streamlit tabs. Because the contract is the JSON schema rather than the simulation code, the dashboard installs and runs without the simulation dependencies.
 
-Sample artifacts were bundled with the application so that it works out of the box; an optional generator regenerates them from the upstream simulator and benchmark packages. Loader behaviour was covered by unit tests.
+Sample artifacts were bundled with the application so that it works out of the box; an optional generator regenerates them from the upstream simulator and benchmark packages. Loader behavior was covered by unit tests.
 
 ## Results
 
@@ -30,7 +30,7 @@ The dashboard presents five views: an overview of physical-versus-logical error 
 
 ## Discussion
 
-Separating presentation from computation through a small data contract is the same discipline that underlies production observability stacks, and it pays off here in deployability and testing speed. The dashboard is intentionally read-only and static; it visualises completed runs rather than streaming live results.
+Separating presentation from computation through a small data contract is the same discipline that underlies production observability stacks, and it pays off here in deployability and testing speed. The dashboard is intentionally read-only and static; it visualizes completed runs rather than streaming live results.
 
 Future work includes streaming metrics from long-running sweeps, alerting when an operating point drifts above threshold, and richer cross-filtering across decoders and code distances. The clean contract makes such extensions additive rather than invasive.
 

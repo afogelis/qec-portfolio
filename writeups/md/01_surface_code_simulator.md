@@ -12,7 +12,7 @@ A circuit-level Monte Carlo simulator for the surface code was implemented on to
 
 Fault-tolerant quantum computation depends on encoding logical information so that physical errors can be detected and corrected faster than they accumulate. The surface code achieves this with a two-dimensional lattice of data and measure qubits requiring only local interactions, and it tolerates a relatively high physical error rate, which makes it the leading code for superconducting and neutral-atom hardware. The central figure of merit is the threshold: the physical error rate below which increasing the code distance reduces the logical error rate.
 
-Many high-quality libraries exist for stabiliser simulation and decoding, but a researcher benefits from a compact, end-to-end pipeline whose statistics are easy to read and test. This work was undertaken to build such a pipeline and to verify that it recovers the textbook threshold behaviour, establishing a trustworthy base layer on which decoder comparisons, machine-learning experiments and paper reproductions could be built.
+Many high-quality libraries exist for stabiliser simulation and decoding, but a researcher benefits from a compact, end-to-end pipeline whose statistics are easy to read and test. This work was undertaken to build such a pipeline and to verify that it recovers the textbook threshold behavior, establishing a trustworthy base layer on which decoder comparisons, machine-learning experiments and paper reproductions could be built.
 
 ## Materials and Methods
 

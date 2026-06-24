@@ -10,7 +10,7 @@ The central scaling claim of Google Quantum AI's 2023 experiment - that below th
 
 ## Introduction
 
-In 2023 Google Quantum AI reported the first experimental demonstration that a larger surface code can have a lower logical error rate than a smaller one, a milestone for the field because it showed error suppression by scaling on real hardware. The result is naturally summarised by a suppression factor relating the logical error per cycle at successive code distances.
+In 2023 Google Quantum AI reported the first experimental demonstration that a larger surface code can have a lower logical error rate than a smaller one, a milestone for the field because it showed error suppression by scaling on real hardware. The result is naturally summarized by a suppression factor relating the logical error per cycle at successive code distances.
 
 A full hardware reproduction is impossible without the device, so this work set out to reproduce the experiment's analysis methodology and its qualitative physics conclusion in simulation, and to be explicit about the boundary between what simulation can and cannot reproduce.
 

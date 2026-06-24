@@ -1,0 +1,170 @@
+# Portfolio manifest -- the single source of truth for the landing page.
+#
+# To add a project: append one [[project]] entry below and run
+#     python scripts/build_portfolio_index.py
+# That regenerates the repository tables, dependency graph, test-status list and
+# write-up index in README.md (everything between the <!-- BEGIN:* --> markers).
+# No hand-editing of those sections is needed, so the page can never drift.
+#
+# (CI integration in .github/workflows/integration.yml is still updated by hand;
+#  only add a project there if it joins the installable dependency chain.)
+
+[meta]
+github_user = "afogelis"
+# Free-form description of the researcher, used in the intro. Kept topic-neutral
+# so the portfolio reads as "someone who explores topics by building", not as a
+# single-subject repo.
+tagline = "I learn a topic by building it: for each subject I take on, I ship reproducible, tested software and a paper-style write-up rather than just notes."
+
+# Tiers order the projects within a research area (most impressive first).
+[[tier]]
+key = "capstone"
+title = "Capstones (start here)"
+blurb = ""
+
+[[tier]]
+key = "foundation"
+title = "Foundation and tooling"
+blurb = ""
+
+[[tier]]
+key = "frontier"
+title = "Frontier extensions"
+blurb = "Independent, advanced topics that round out the area beyond the basics."
+
+# Research areas group the projects. Add a new [[area]] when you branch into a
+# new subject; projects reference it by `area` key.
+[[area]]
+key = "qec"
+name = "Quantum Error Correction"
+focus = true
+# Area-specific framing rendered under the area heading.
+intro = """
+**This is:** reproducible research software. It reproduces published results from scratch, implements decoders (union-find, belief propagation, and an exact maximum-likelihood decoder) by hand to study their behavior, and turns physics into decision-ready resource estimates. The engineering is production-grade: typed configs, tests against the real Stim/PyMatching stack, and CI across four Python versions.
+
+**This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production decoder stack. The foundational simulator is an *experiment pipeline* built on Stim and PyMatching, not a re-implementation of them. The genuinely algorithmic contributions are the **exact maximum-likelihood decoder** (decoder-accuracy-reproduction), which measures how far minimum-weight perfect matching sits from optimal without any Monte Carlo sampling error, and the **from-scratch peeling decoder** (qec-noise-profiles), which reproduces the analytic 0.5 erasure threshold. Engineering trade-offs (including why this is many repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+Common stack: [Stim](https://github.com/quantumlib/Stim) (stabilizer simulation), [PyMatching](https://pymatching.readthedocs.io/) (MWPM), Pydantic v2 typed configs, pytest, and GitHub Actions CI. Each repo follows the same `src/` layout, RORO interfaces, and MIT license.
+"""
+
+[[project]]
+number = 1
+name = "surface-code-simulator"
+area = "qec"
+tier = "foundation"
+summary = "Infrastructure layer: circuit-level surface-code Monte Carlo pipeline on Stim + PyMatching (build, sample, decode, threshold)."
+highlight = "Clean threshold crossing at p_th ~ 0.6%."
+deps = []
+tests = "15 passed"
+writeup_slug = "01_surface_code_simulator"
+writeup_title = "Surface-code simulator"
+
+[[project]]
+number = 2
+name = "decoder-benchmark"
+area = "qec"
+tier = "foundation"
+summary = "Benchmark MWPM vs from-scratch union-find and belief propagation, with separate accuracy and runtime tiers and an optional BP-OSD reference."
+highlight = "Plain BP dominated on accuracy; BP-OSD competitive."
+deps = ["surface-code-simulator"]
+tests = "16 passed, 1 skipped (BP-OSD, optional `ldpc` dependency)"
+writeup_slug = "02_decoder_benchmark"
+writeup_title = "Decoder benchmark"
+
+[[project]]
+number = 3
+name = "qec-dashboard"
+area = "qec"
+tier = "foundation"
+summary = "Streamlit artifact viewer over simulation/benchmark outputs (demo/observability)."
+highlight = "Decoupled JSON data contracts + bundled sample data."
+deps = ["surface-code-simulator", "decoder-benchmark", "ml-qec-decoder"]
+tests = "4 passed"
+writeup_slug = "03_qec_dashboard"
+writeup_title = "QEC dashboard"
+
+[[project]]
+number = 4
+name = "ml-qec-decoder"
+area = "qec"
+tier = "foundation"
+summary = "A controlled negative study: when do tabular/geometry-aware ML decoders fail against MWPM?"
+highlight = "Calibrated finding: ML competitive at d=3, fails at d=5."
+deps = ["surface-code-simulator", "decoder-benchmark"]
+tests = "7 passed"
+writeup_slug = "04_ml_qec_decoder"
+writeup_title = "ML QEC decoder"
+
+[[project]]
+number = 5
+name = "fault-tolerance-economics"
+area = "qec"
+tier = "foundation"
+summary = "Resource/cost model: how many qubits to break RSA-2048 with Shor."
+highlight = "Reproduces ~20M qubits / ~8 hours (Gidney-Ekera)."
+deps = []
+tests = "7 passed"
+writeup_slug = "05_fault_tolerance_economics"
+writeup_title = "Fault-tolerance economics"
+
+[[project]]
+number = 6
+name = "google-surface-code-reproduction"
+area = "qec"
+tier = "capstone"
+summary = "Simulation reproduction of Google's Nature 2023 scaling result."
+highlight = "Reproduces error suppression Lambda ~ 2.2 below threshold."
+deps = ["surface-code-simulator"]
+tests = "4 passed"
+writeup_slug = "06_google_reproduction"
+writeup_title = "Google reproduction"
+
+[[project]]
+number = 7
+name = "decoder-accuracy-reproduction"
+area = "qec"
+tier = "capstone"
+summary = "Exact maximum-likelihood vs MWPM decoder comparison by error-pattern enumeration (arXiv:2311.12503)."
+highlight = "Sampling-free: MWPM provably optimal at d=3, quantifiably sub-optimal at d=5."
+deps = ["surface-code-simulator", "decoder-benchmark"]
+tests = "4 passed"
+writeup_slug = "07_decoder_accuracy_reproduction"
+writeup_title = "Decoder accuracy reproduction"
+
+[[project]]
+number = 8
+name = "qldpc-builder"
+area = "qec"
+tier = "frontier"
+summary = "Build bivariate/generalized-bicycle qLDPC codes; decode with a from-scratch BP+OSD; benchmark encoding rate vs the surface code."
+highlight = "High-rate codes match the surface baseline's logical error rate at several times the rate."
+deps = []
+# Runtime artifact handoffs (dotted edges in the graph): "target|label".
+artifact_deps = ["decoder-benchmark|matrix/Stim export"]
+tests = "21 passed"
+writeup_slug = "08_qldpc_builder"
+writeup_title = "qLDPC builder"
+
+[[project]]
+number = 9
+name = "qec-noise-profiles"
+area = "qec"
+tier = "frontier"
+summary = "Biased Pauli noise (weighted matching) and heralded erasure (from-scratch peeling) on the toric code."
+highlight = "Reproduces the analytic 0.5 erasure threshold vs ~0.16 depolarizing."
+deps = []
+tests = "18 passed"
+writeup_slug = "09_qec_noise_profiles"
+writeup_title = "QEC noise profiles"
+
+[[project]]
+number = 10
+name = "active-volume-compiler"
+area = "qec"
+tier = "frontier"
+summary = "Compile a Clifford+T circuit to a surface-code layout and optimize the magic-state factory ratio."
+highlight = "Volume-optimal factory count at the factory/logic runtime crossover."
+deps = []
+tests = "10 passed"
+writeup_slug = "10_active_volume_compiler"
+writeup_title = "Active volume compiler"

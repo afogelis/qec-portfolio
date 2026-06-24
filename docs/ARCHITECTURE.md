@@ -29,7 +29,7 @@ the honest counter-argument:
 - Cross-cutting refactors are harder.
 
 If this codebase were a team-maintained product rather than a portfolio, it would be a monorepo with
-a workspace tool (uv / Hatch / Poetry workspaces). The multi-repo layout optimises for *reviewability
+a workspace tool (uv / Hatch / Poetry workspaces). The multi-repo layout optimizes for *reviewability
 and independent reuse*, which is the actual goal here.
 
 ## Dependency and version pinning
