@@ -612,7 +612,7 @@ DOCS: list[Doc] = [
                     "Simulation and benchmarking produce numbers; turning those numbers into "
                     "decision-ready views is a separate skill. In operational settings, dashboards "
                     "consume metrics emitted by upstream pipelines rather than recomputing them, "
-                    "which keeps the presentation layer fast, cheap to deploy and robust to changes "
+                    "which keeps the presentation layer quick to deploy and isolated from changes "
                     "in the compute layer. This work applied that pattern to quantum error "
                     "correction.",
                     "The goal was a dashboard that an error-correction operations team would "
@@ -1209,11 +1209,11 @@ DOCS: list[Doc] = [
             "matching, and heralded erasure was decoded with a from-scratch peeling decoder. The "
             "peeling decoder reproduced the analytically known erasure threshold of one half - the "
             "bond-percolation threshold of the lattice - which validates the implementation, while "
-            "depolarising noise crossed near sixteen percent. A non-obvious result emerged: for the "
+            "depolarising noise crossed near sixteen percent. For the "
             "untailored toric code, concentrating noise on a single Pauli type did not raise the "
-            "tolerable total error rate and was in fact marginally worse than depolarising, because "
-            "almost all the error then loads a single decoding graph. The dramatic, robust win is "
-            "erasure conversion, not bias alone."
+            "tolerable total error rate and was marginally worse than depolarising, because "
+            "almost all the error then loads a single decoding graph. The threshold gain came from "
+            "erasure conversion rather than bias alone."
         ),
         sections=[
             Section(

@@ -1,8 +1,7 @@
 # Architecture and engineering trade-offs
 
-This document explains the structural decisions behind the portfolio, and is the honest answer to
-the most common reviewer question: *why seven (now ten) separate repositories instead of a
-monorepo?*
+This document explains the structural decisions behind the portfolio, and answers the most common
+reviewer question: *why ten separate repositories instead of a monorepo?*
 
 ## Why multiple repositories
 
@@ -20,8 +19,8 @@ deliberate trade-off, not an accident:
 
 ### What a monorepo would buy instead
 
-For a **single, actively-maintained product**, a monorepo would be the better choice, and this is
-the honest counter-argument:
+For a **single, actively-maintained product**, a monorepo would be the better choice. The
+counter-argument is:
 
 - A schema or interface change in `surface-code-simulator` currently requires a version bump and a
   re-pin in every downstream repo, rather than a single atomic commit.

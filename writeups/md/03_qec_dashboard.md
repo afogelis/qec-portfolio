@@ -10,7 +10,7 @@ An operational dashboard was built to make the metrics produced by surface-code 
 
 ## Introduction
 
-Simulation and benchmarking produce numbers; turning those numbers into decision-ready views is a separate skill. In operational settings, dashboards consume metrics emitted by upstream pipelines rather than recomputing them, which keeps the presentation layer fast, cheap to deploy and robust to changes in the compute layer. This work applied that pattern to quantum error correction.
+Simulation and benchmarking produce numbers; turning those numbers into decision-ready views is a separate skill. In operational settings, dashboards consume metrics emitted by upstream pipelines rather than recomputing them, which keeps the presentation layer quick to deploy and isolated from changes in the compute layer. This work applied that pattern to quantum error correction.
 
 The goal was a dashboard that an error-correction operations team would actually watch, surfacing the quantities that indicate whether a code is operating below threshold and which decoder is performing best, while remaining independent of the simulators that generate the data.
 

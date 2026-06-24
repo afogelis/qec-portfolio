@@ -23,7 +23,7 @@ group into three layers:
 | [`decoder-benchmark`](https://github.com/afogelis/decoder-benchmark) | MWPM vs from-scratch union-find and belief propagation, split into accuracy and runtime tiers. |
 | [`decoder-accuracy-reproduction`](https://github.com/afogelis/decoder-accuracy-reproduction) | Exact maximum-likelihood vs MWPM by error-pattern enumeration — sampling-free optimality bounds. |
 | [`qldpc-builder`](https://github.com/afogelis/qldpc-builder) | Bivariate/generalized-bicycle qLDPC code construction with a from-scratch BP+OSD decoder. |
-| [`ml-qec-decoder`](https://github.com/afogelis/ml-qec-decoder) | A controlled negative study: when do ML decoders fail against MWPM? (Honest: they fail at d=5.) |
+| [`ml-qec-decoder`](https://github.com/afogelis/ml-qec-decoder) | A controlled negative study: when do ML decoders fail against MWPM? (They fail at d=5.) |
 
 ## The strategy and presentation layer — compilation, economics, observability
 

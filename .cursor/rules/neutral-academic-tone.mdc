@@ -1,0 +1,29 @@
+---
+description: Enforce neutral, research-paper tone in all write-ups
+globs: ["**/*.md", "**/*.mdx", "**/*.txt", "**/*.rst"]
+alwaysApply: true
+---
+
+# Neutral Academic Tone
+
+Write-ups must reflect the register of a research paper. Editorializing, self-praise, and persuasive framing are not permitted.
+
+## Rules
+
+- **No superlatives or value judgments** about the work itself. Do not describe the project, methodology, or results as impressive, elegant, novel, powerful, robust, or similar.
+- **No first-person promotional language.** Avoid constructions like "we demonstrate," "we show," or "our approach achieves" when the intent is to praise rather than report.
+- **No persuasive framing.** The writing should not argue that the work is important or significant — it should present methods and results and allow the reader to draw their own conclusions.
+- **No filler credibility phrases.** Remove constructions like "notably," "importantly," "it is worth emphasizing," "crucially," and similar editorial markers unless they carry precise logical meaning.
+- **State what was done, not how impressive it was.** Prefer "the decoder was evaluated against MWPM across code distances d=3 to d=7" over "the decoder was rigorously benchmarked, demonstrating clear advantages over MWPM."
+- **Qualify claims precisely.** Uncertainty should be expressed with standard hedging ("suggests," "is consistent with," "under the assumptions described") rather than omitted for rhetorical effect.
+- **Passive voice is preferred.** Active voice may be used where passive construction would create ambiguity.
+- **Results speak for themselves.** Numerical results, figures, and citations are the evidence — do not annotate them with editorial commentary on what they prove.
+
+## Examples
+
+| Non-compliant | Compliant |
+|---|---|
+| "This demonstrates the power of our approach." | "Results are consistent with the theoretical bound." |
+| "Notably, the model outperforms all baselines." | "The model achieved lower logical error rates than MWPM at d=5 and d=7." |
+| "We rigorously validate our claims." | "Claims are evaluated against simulated and published benchmarks." |
+| "This is a significant contribution to the field." | *(omit — not a factual claim about results)* |
