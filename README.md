@@ -23,7 +23,7 @@ Python versions.
 
 **This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production
 decoder stack. The foundational simulator (`surface-code-simulator`) is an *experiment pipeline*
-built on Stim and PyMatching, not a re-implementation of them. The genuinely algorithmic
+built on Stim and PyMatching, not a re-implementation of them. The algorithmic
 contribution is the **exact maximum-likelihood decoder** (`decoder-accuracy-reproduction`), which
 measures how far minimum-weight perfect matching sits from optimal without any Monte Carlo sampling
 error, and the **from-scratch peeling decoder** (`qec-noise-profiles`), which reproduces the analytic

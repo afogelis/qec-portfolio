@@ -861,7 +861,7 @@ DOCS: list[Doc] = [
                     "quantum factoring under comparable assumptions: from roughly one billion "
                     "physical qubits (2012), to twenty million (Gidney and Ekera, 2019), to under "
                     "one million (Gidney, 2025) - an approximately twentyfold reduction over the "
-                    "2019 figure. The 2025 headline was reconstructed from its reported components "
+                    "2019 figure. The 2025 estimate was reconstructed from its reported components "
                     "rather than re-derived: cold yoked storage (1,280 logical qubits at 430 "
                     "physical qubits each), hot storage (131 logical qubits at 1,352 each) and a "
                     "compute region of 126 patches summed to 897,864 physical qubits, which the "

@@ -76,4 +76,4 @@ Every repository follows the same standards so the portfolio reads as one body o
 - Pydantic v2 typed configuration, receive-an-object / return-an-object interfaces.
 - `pytest` suites that exercise the real Stim / PyMatching stack, not mocks.
 - `ruff` lint + format, a `pre-commit` config, and GitHub Actions CI across Python 3.10-3.13.
-- A committed headline figure in `docs/`, a `CITATION.cff`, and the MIT license.
+- A committed representative figure in `docs/`, a `CITATION.cff`, and the MIT license.

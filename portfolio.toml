@@ -16,7 +16,7 @@ github_user = "afogelis"
 # single-subject repo.
 tagline = "I learn a topic by building it: for each subject I take on, I ship reproducible, tested software and a paper-style write-up rather than just notes."
 
-# Tiers order the projects within a research area (most impressive first).
+# Tiers order the projects within a research area (lower tier number listed first).
 [[tier]]
 key = "capstone"
 title = "Capstones (start here)"
@@ -42,7 +42,7 @@ focus = true
 intro = """
 **This is:** reproducible research software. It reproduces published results from scratch, implements decoders (union-find, belief propagation, and an exact maximum-likelihood decoder) by hand to study their behavior, and turns physics into decision-ready resource estimates. The engineering is production-grade: typed configs, tests against the real Stim/PyMatching stack, and CI across four Python versions.
 
-**This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production decoder stack. The foundational simulator is an *experiment pipeline* built on Stim and PyMatching, not a re-implementation of them. The genuinely algorithmic contributions are the **exact maximum-likelihood decoder** (decoder-accuracy-reproduction), which measures how far minimum-weight perfect matching sits from optimal without any Monte Carlo sampling error, and the **from-scratch peeling decoder** (qec-noise-profiles), which reproduces the analytic 0.5 erasure threshold. Engineering trade-offs (including why this is many repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+**This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production decoder stack. The foundational simulator is an *experiment pipeline* built on Stim and PyMatching, not a re-implementation of them. The algorithmic contributions are the **exact maximum-likelihood decoder** (decoder-accuracy-reproduction), which measures how far minimum-weight perfect matching sits from optimal without any Monte Carlo sampling error, and the **from-scratch peeling decoder** (qec-noise-profiles), which reproduces the analytic 0.5 erasure threshold. Engineering trade-offs (including why this is many repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Common stack: [Stim](https://github.com/quantumlib/Stim) (stabilizer simulation), [PyMatching](https://pymatching.readthedocs.io/) (MWPM), Pydantic v2 typed configs, pytest, and GitHub Actions CI. Each repo follows the same `src/` layout, RORO interfaces, and MIT license.
 """
