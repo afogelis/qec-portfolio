@@ -76,12 +76,12 @@ def render_repositories(data: dict) -> str:
             if tier.get("blurb"):
                 lines.append(tier["blurb"])
                 lines.append("")
-            lines.append("| # | Repository | What it does | Highlight |")
-            lines.append("|---|-----------|--------------|-----------|")
+            lines.append("| Repository | What it does | Highlight |")
+            lines.append("|-----------|--------------|-----------|")
             for project in tier_members:
                 url = repo_url(user, project["name"])
                 lines.append(
-                    f"| {project['number']} | [`{project['name']}`]({url}) "
+                    f"| [`{project['name']}`]({url}) "
                     f"| {project['summary']} | {project['highlight']} |"
                 )
             lines.append("")

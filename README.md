@@ -22,12 +22,13 @@ production-grade: typed configs, tests against the real Stim/PyMatching stack, a
 Python versions.
 
 **This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production
-decoder stack. The foundational simulator (repo 1) is an *experiment pipeline* built on Stim and
-PyMatching, not a re-implementation of them. The genuinely algorithmic contribution is the **exact
-maximum-likelihood decoder** in repo 7, which measures how far minimum-weight perfect matching sits
-from optimal without any Monte Carlo sampling error, and the **from-scratch peeling decoder** in repo
-9, which reproduces the analytic 0.5 erasure threshold. Engineering trade-offs (including why this is
-many repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+decoder stack. The foundational simulator (`surface-code-simulator`) is an *experiment pipeline*
+built on Stim and PyMatching, not a re-implementation of them. The genuinely algorithmic
+contribution is the **exact maximum-likelihood decoder** (`decoder-accuracy-reproduction`), which
+measures how far minimum-weight perfect matching sits from optimal without any Monte Carlo sampling
+error, and the **from-scratch peeling decoder** (`qec-noise-profiles`), which reproduces the analytic
+0.5 erasure threshold. Engineering trade-offs (including why this is many repos rather than a
+monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Common stack: [Stim](https://github.com/quantumlib/Stim) (stabilizer simulation),
 [PyMatching](https://pymatching.readthedocs.io/) (MWPM), Pydantic v2 typed configs, pytest, and
@@ -42,39 +43,43 @@ build on.
 <!-- BEGIN:repositories -->
 ### Capstones (start here)
 
-| # | Repository | What it does | Highlight |
-|---|-----------|--------------|-----------|
-| 6 | [`google-surface-code-reproduction`](https://github.com/afogelis/google-surface-code-reproduction) | Simulation reproduction of Google's Nature 2023 scaling result. | Reproduces error suppression Lambda ~ 2.2 below threshold. |
-| 7 | [`decoder-accuracy-reproduction`](https://github.com/afogelis/decoder-accuracy-reproduction) | Exact maximum-likelihood vs MWPM decoder comparison by error-pattern enumeration (arXiv:2311.12503). | Sampling-free: MWPM provably optimal at d=3, quantifiably sub-optimal at d=5. |
+| Repository | What it does | Highlight |
+|-----------|--------------|-----------|
+| [`google-surface-code-reproduction`](https://github.com/afogelis/google-surface-code-reproduction) | Simulation reproduction of Google's Nature 2023 scaling result. | Reproduces error suppression Lambda ~ 2.2 below threshold. |
+| [`decoder-accuracy-reproduction`](https://github.com/afogelis/decoder-accuracy-reproduction) | Exact maximum-likelihood vs MWPM decoder comparison by error-pattern enumeration (arXiv:2311.12503). | Sampling-free: MWPM provably optimal at d=3, quantifiably sub-optimal at d=5. |
 
 ### Foundation and tooling
 
-| # | Repository | What it does | Highlight |
-|---|-----------|--------------|-----------|
-| 1 | [`surface-code-simulator`](https://github.com/afogelis/surface-code-simulator) | Infrastructure layer: circuit-level surface-code Monte Carlo pipeline on Stim + PyMatching (build, sample, decode, threshold). | Clean threshold crossing at p_th ~ 0.6%. |
-| 2 | [`decoder-benchmark`](https://github.com/afogelis/decoder-benchmark) | Benchmark MWPM vs from-scratch union-find and belief propagation, with separate accuracy and runtime tiers and an optional BP-OSD reference. | Plain BP dominated on accuracy; BP-OSD competitive. |
-| 3 | [`qec-dashboard`](https://github.com/afogelis/qec-dashboard) | Streamlit artifact viewer over simulation/benchmark outputs (demo/observability). | Decoupled JSON data contracts + bundled sample data. |
-| 4 | [`ml-qec-decoder`](https://github.com/afogelis/ml-qec-decoder) | A controlled negative study: when do tabular/geometry-aware ML decoders fail against MWPM? | Calibrated finding: ML competitive at d=3, fails at d=5. |
-| 5 | [`fault-tolerance-economics`](https://github.com/afogelis/fault-tolerance-economics) | Resource/cost model: how many qubits to break RSA-2048 with Shor. | Reproduces ~20M qubits / ~8 hours (Gidney-Ekera). |
+| Repository | What it does | Highlight |
+|-----------|--------------|-----------|
+| [`surface-code-simulator`](https://github.com/afogelis/surface-code-simulator) | Infrastructure layer: circuit-level surface-code Monte Carlo pipeline on Stim + PyMatching (build, sample, decode, threshold). | Clean threshold crossing at p_th ~ 0.6%. |
+| [`decoder-benchmark`](https://github.com/afogelis/decoder-benchmark) | Benchmark MWPM vs from-scratch union-find and belief propagation, with separate accuracy and runtime tiers and an optional BP-OSD reference. | Plain BP dominated on accuracy; BP-OSD competitive. |
+| [`qec-dashboard`](https://github.com/afogelis/qec-dashboard) | Streamlit artifact viewer over simulation/benchmark outputs (demo/observability). | Decoupled JSON data contracts + bundled sample data. |
+| [`ml-qec-decoder`](https://github.com/afogelis/ml-qec-decoder) | A controlled negative study: when do tabular/geometry-aware ML decoders fail against MWPM? | Calibrated finding: ML competitive at d=3, fails at d=5. |
+| [`fault-tolerance-economics`](https://github.com/afogelis/fault-tolerance-economics) | Resource/cost model: how many qubits to break RSA-2048 with Shor. | Reproduces ~20M qubits / ~8 hours (Gidney-Ekera). |
 
 ### Frontier extensions
 
 Independent, advanced topics that round out the area beyond the basics.
 
-| # | Repository | What it does | Highlight |
-|---|-----------|--------------|-----------|
-| 8 | [`qldpc-builder`](https://github.com/afogelis/qldpc-builder) | Build bivariate/generalized-bicycle qLDPC codes; decode with a from-scratch BP+OSD; benchmark encoding rate vs the surface code. | High-rate codes match the surface baseline's logical error rate at several times the rate. |
-| 9 | [`qec-noise-profiles`](https://github.com/afogelis/qec-noise-profiles) | Biased Pauli noise (weighted matching) and heralded erasure (from-scratch peeling) on the toric code. | Reproduces the analytic 0.5 erasure threshold vs ~0.16 depolarizing. |
-| 10 | [`active-volume-compiler`](https://github.com/afogelis/active-volume-compiler) | Compile a Clifford+T circuit to a surface-code layout and optimize the magic-state factory ratio. | Volume-optimal factory count at the factory/logic runtime crossover. |
+| Repository | What it does | Highlight |
+|-----------|--------------|-----------|
+| [`qldpc-builder`](https://github.com/afogelis/qldpc-builder) | Build bivariate/generalized-bicycle qLDPC codes; decode with a from-scratch BP+OSD; benchmark encoding rate vs the surface code. | High-rate codes match the surface baseline's logical error rate at several times the rate. |
+| [`qec-noise-profiles`](https://github.com/afogelis/qec-noise-profiles) | Biased Pauli noise (weighted matching) and heralded erasure (from-scratch peeling) on the toric code. | Reproduces the analytic 0.5 erasure threshold vs ~0.16 depolarizing. |
+| [`active-volume-compiler`](https://github.com/afogelis/active-volume-compiler) | Compile a Clifford+T circuit to a surface-code layout and optimize the magic-state factory ratio. | Volume-optimal factory count at the factory/logic runtime crossover. |
 <!-- END:repositories -->
 
 ## Suggested reading order
 
-For a reviewer with limited time: **7 -> 6 -> 9 -> 8 -> 2 -> 1 -> 10 -> 5 -> 4 -> 3**. Repos 7 and
-6 reproduce published research and implement an optimal decoder; 9 and 8 implement from-scratch
-qLDPC/erasure decoders with analytically-checkable thresholds; 2 and 1 show the core decoding and
-simulation engineering; 10 and 5 show fault-tolerant compilation and quantitative modeling; 4 and 3
-show an honest ML study and productization.
+For a reviewer with limited time, read in this order: `decoder-accuracy-reproduction` ->
+`google-surface-code-reproduction` -> `qec-noise-profiles` -> `qldpc-builder` -> `decoder-benchmark`
+-> `surface-code-simulator` -> `active-volume-compiler` -> `fault-tolerance-economics` ->
+`ml-qec-decoder` -> `qec-dashboard`. The first two reproduce published research and implement an
+optimal decoder; the next two implement from-scratch qLDPC/erasure decoders with
+analytically-checkable thresholds; `decoder-benchmark` and `surface-code-simulator` show the core
+decoding and simulation engineering; `active-volume-compiler` and `fault-tolerance-economics` show
+fault-tolerant compilation and quantitative modeling; and `ml-qec-decoder` and `qec-dashboard` show
+an honest ML study and productization.
 
 ## Dependency graph
 
@@ -98,10 +103,11 @@ flowchart TD
 <!-- END:dependency-graph -->
 
 Solid arrows are `pip` dependencies (pinned to git tags); the dotted edge is a runtime **artifact**
-handoff (repo 8 exports parity-check matrices and a Stim circuit that repo 2 can benchmark), not a
-package dependency. Repos 8, 9 and 10 are otherwise deliberately standalone: each is self-contained
-(its own code construction, decoders and resource model) so it can be read and run without the
-surface-code foundation.
+handoff (`qldpc-builder` exports parity-check matrices and a Stim circuit that `decoder-benchmark`
+can benchmark), not a package dependency. `qldpc-builder`, `qec-noise-profiles` and
+`active-volume-compiler` are otherwise deliberately standalone: each is self-contained (its own code
+construction, decoders and resource model) so it can be read and run without the surface-code
+foundation.
 
 ## Quick start
 
@@ -113,8 +119,9 @@ pip install -e ".[dev]"
 pytest
 ```
 
-For the repos that depend on siblings (2, 3, 4, 7), install the upstream repos editable into the
-same environment first; see each repo's README for the exact commands.
+For the repos that depend on siblings (`decoder-benchmark`, `qec-dashboard`, `ml-qec-decoder`,
+`decoder-accuracy-reproduction`), install the upstream repos editable into the same environment
+first; see each repo's README for the exact commands.
 
 ## Test status
 
