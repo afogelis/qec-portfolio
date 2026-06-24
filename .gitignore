@@ -1,0 +1,15 @@
+# The seven project repositories are independent git repos, published separately.
+surface-code-simulator/
+decoder-benchmark/
+ml-qec-decoder/
+qec-dashboard/
+fault-tolerance-economics/
+google-surface-code-reproduction/
+decoder-accuracy-reproduction/
+
+# Environment / build
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
