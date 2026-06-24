@@ -11,10 +11,8 @@
 
 [meta]
 github_user = "afogelis"
-# Free-form description of the researcher, used in the intro. Kept topic-neutral
-# so the portfolio reads as "someone who explores topics by building", not as a
-# single-subject repo.
-tagline = "I learn a topic by building it: for each subject I take on, I ship reproducible, tested software and a paper-style write-up rather than just notes."
+# Free-form description used in the landing-page intro. Kept topic-neutral.
+tagline = "Index of research projects. Each project is a standalone, installable repository with tests, reproducible outputs, and a paper-style write-up."
 
 # Tiers order the projects within a research area (lower tier number listed first).
 [[tier]]

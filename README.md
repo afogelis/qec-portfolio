@@ -1,9 +1,7 @@
 # Research Portfolio
 
-I learn a topic by building it: for each subject I take on, I ship reproducible, tested software and
-a paper-style write-up rather than just notes. This is the index of those projects. The structure is
-built to grow — each project is a standalone, installable repository, and new research areas slot in
-as I take them on.
+Index of research projects organized by research area. Each project is a standalone,
+installable repository with tests, reproducible outputs, and a paper-style write-up.
 
 <!-- BEGIN:summary -->
 Current focus: **Quantum Error Correction** -- 10 projects.
