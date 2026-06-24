@@ -79,13 +79,16 @@ flowchart TD
   P1 --> P3[qec-dashboard]
   P2 --> P3
   P4 --> P3
-  P8[qldpc-builder]
+  P8[qldpc-builder] -.->|matrix/Stim export| P2
   P9[qec-noise-profiles]
   P10[active-volume-compiler]
 ```
 
-Repos 8, 9 and 10 are deliberately standalone: each is self-contained (its own code construction,
-decoders and resource model) so it can be read and run without the surface-code foundation.
+Solid arrows are `pip` dependencies (pinned to git tags); the dotted edge is a runtime **artifact**
+handoff (repo 8 exports parity-check matrices and a Stim circuit that repo 2 can benchmark), not a
+package dependency. Repos 8, 9 and 10 are otherwise deliberately standalone: each is self-contained
+(its own code construction, decoders and resource model) so it can be read and run without the
+surface-code foundation.
 
 ## Quick start
 
