@@ -1,4 +1,4 @@
-# Machine-Learning Decoders for the Surface Code: A Regime Analysis against Minimum-Weight Perfect Matching
+# When Learned Decoders Fail against Matching: A Controlled Negative Study on the Surface Code
 
 *Andrew Fogelis*
 
@@ -6,7 +6,7 @@ Repository: <https://github.com/afogelis/ml-qec-decoder>
 
 ## Abstract
 
-Three machine-learning decoders for the surface code - a random forest, a gradient-boosted tree ensemble and a feed-forward neural network - were implemented and compared head-to-head with minimum-weight perfect matching. Each model learns to predict the logical observable flip directly from a syndrome and plugs into the decoder-benchmark framework for a like-for-like comparison. Across code distances three and five and physical error rates between 1% and 3% with a fixed training budget, the learned decoders were competitive with matching at distance three - the neural network reached a logical error rate of 0.080 against matching's 0.064 at a physical rate of 1% - but degraded sharply at distance five. The study reaches a calibrated conclusion about when learned decoding helps rather than overclaiming that it beats matching.
+Four machine-learning decoders for the surface code - a random forest, a gradient-boosted tree ensemble, a feed-forward neural network and a geometry-aware convolutional network that reshapes the syndrome back onto its lattice - were implemented and compared head-to-head with minimum-weight perfect matching. Each model learns to predict the logical observable flip directly from a syndrome and plugs into the decoder-benchmark framework for a like-for-like comparison. The study was designed to test honestly whether learned decoders keep up with matching as the code grows. Under a fixed, realistic training budget the answer is that they do not: the learned decoders were competitive with matching only at distance three, and at distances five and seven every model, including the convolutional one, diverged upward in logical error rate while matching continued to suppress it. The geometry-aware inductive bias of the convolutional model bought only a marginal edge over the tabular models and did not prevent the collapse. The result is reported as a calibrated negative finding about when learned decoding is the wrong tool, rather than a cherry-picked win.
 
 ## Introduction
 
@@ -16,25 +16,29 @@ This work framed decoding as supervised classification from syndrome to logical 
 
 ## Materials and Methods
 
-Three models were implemented behind a common base class: a random forest and a gradient-boosted tree ensemble, and a feed-forward neural network trained with binary cross-entropy loss, the Adam optimiser and early stopping on a validation split. Training data were sampled from the same Stim circuits the classical decoders see, so the comparison is apples-to-apples, and the models were registered into the decoder-benchmark framework to be scored identically.
+Four models were implemented behind a common base class: a random forest and a gradient-boosted tree ensemble; a feed-forward neural network trained with binary cross-entropy loss, the Adam optimiser and early stopping on a validation split; and a geometry-aware convolutional network. The convolutional model recovers each detector's lattice coordinate from the Stim circuit, scatters the binary detection events into a time-by-height-by-width image, and applies small convolutional kernels, giving it the translation-equivariant inductive bias appropriate to a two-dimensional code. Training data were sampled from the same Stim circuits the classical decoders see, so the comparison is apples-to-apples, and all models were registered into the decoder-benchmark framework to be scored identically.
 
-The reported sweep covered code distances three and five at physical error rates of 1%, 1.5%, 2% and 3%, with twenty thousand training shots and five thousand evaluation shots at a fixed seed. Minimum-weight perfect matching was evaluated on the same shots as the reference.
+Two sweeps were run. A regime sweep covered code distances three and five at physical error rates of 1%, 1.5%, 2% and 3% with twenty thousand training and five thousand evaluation shots. A scaling sweep covered code distances three, five and seven at a fixed below-threshold physical error rate of 0.6% with thirty thousand training shots, in order to isolate how each decoder scales with code size. Minimum-weight perfect matching was evaluated on the same shots as the reference throughout.
 
 ## Results
 
-At code distance three the learned decoders were competitive with matching. The neural network achieved a logical error rate of 0.080 against matching's 0.064 at a physical error rate of 1%, and the gap closed further with additional training data; inference was sub-microsecond per shot because a forward pass is a few matrix multiplications. At code distance five every learned decoder degraded markedly - for example the best learned decoder reached 0.335 against matching's 0.080 at a physical rate of 1% - because the syndrome space grows, logical flips become rarer, and a fixed training budget no longer covers the input distribution.
+At code distance three the learned decoders were competitive with matching. The neural network achieved a logical error rate of 0.080 against matching's 0.064 at a physical error rate of 1%, and inference was sub-microsecond per shot because a forward pass is a few matrix multiplications. This was the only regime in which learned decoding was in contention.
 
-Across all regimes matching won, but the margin and the reasons varied with distance and physical error rate, producing a clear regime map rather than a single verdict.
+The scaling sweep made the failure unambiguous. As the code distance grew from three to seven at a fixed physical error rate of 0.6%, matching suppressed its logical error rate, holding near 0.02, while every learned decoder diverged upward to roughly 0.35 at distance seven. The growth of the syndrome space and the rarity of logical flips left the fixed training budget unable to cover the input distribution. The geometry-aware convolutional model was consistently the best of the learned decoders at distances five and seven, confirming that its lattice inductive bias helps, but the margin over the tabular models was small and it diverged from matching by roughly an order of magnitude all the same.
 
-![Figure 1. Logical error rate of matching versus the best machine-learning decoder, across code distance and physical error rate. The learned decoders approach matching at distance three and low physical rates, then fall behind at distance five.](../figures/04_ml_vs_mwpm.png)
+![Figure 1. Logical error rate versus code distance at a fixed physical error rate of 0.6% for matching and the four learned decoders. Matching suppresses the logical error rate while every learned decoder, including the convolutional one, diverges upward.](../figures/04_cnn_scaling.png)
 
-*Figure 1. Logical error rate of matching versus the best machine-learning decoder, across code distance and physical error rate. The learned decoders approach matching at distance three and low physical rates, then fall behind at distance five.*
+*Figure 1. Logical error rate versus code distance at a fixed physical error rate of 0.6% for matching and the four learned decoders. Matching suppresses the logical error rate while every learned decoder, including the convolutional one, diverges upward.*
+
+![Figure 2. Logical error rate of matching versus the best machine-learning decoder across code distance and physical error rate. Points above the diagonal are matching wins; learned decoders only approach the diagonal at distance three and low physical rates.](../figures/04_ml_vs_mwpm.png)
+
+*Figure 2. Logical error rate of matching versus the best machine-learning decoder across code distance and physical error rate. Points above the diagonal are matching wins; learned decoders only approach the diagonal at distance three and low physical rates.*
 
 ## Discussion
 
 For circuit-level depolarising noise the matching graph is an excellent model of the error process, so a learned decoder is competing against a near-optimal baseline; matching also exploits the known error model rather than having to learn it from data. The honest conclusion is therefore not that machine learning beats matching, but that it is competitive only where the matching graph is a poor model - strongly correlated or non-graphlike noise - or where training data are abundant relative to the code distance.
 
-The fixed training budget is the central limitation; performance at distance five is data-starved by construction. Future work includes scaling training data with distance, convolutional and graph-neural architectures that exploit lattice locality, and evaluation under correlated and leakage noise where learned models are most likely to add value.
+That even the geometry-aware convolutional model fails to track matching is the most informative part of the study: the right architecture does not substitute for the missing data when logical failures are exponentially rare at large distance. The fixed training budget is the central limitation, and it is the realistic one. Future work includes scaling training data with distance, graph-neural architectures that exploit lattice locality more directly, and evaluation under correlated and leakage noise where learned models are most likely to add value.
 
 ## References
 

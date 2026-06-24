@@ -133,6 +133,19 @@ GIDNEY_EKERA = (
     "Gidney C, Ekera M. How to factor 2048 bit RSA integers in 8 hours using 20 million noisy "
     "qubits. Quantum 2021; 5:433."
 )
+GIDNEY_2025 = (
+    "Gidney C. How to factor 2048 bit RSA integers with less than a million noisy qubits. "
+    "arXiv:2505.15917, 2025."
+)
+CFS24 = (
+    "Chevignard C, Fouque P-A, Schrottenloher A. Reducing the Number of Qubits in Quantum "
+    "Factoring. Cryptology ePrint Archive, Paper 2024/222, 2024."
+)
+YOKED = "Gidney C, Newman M, Brooks P, Jones C. Yoked surface codes. Nature Communications 2025."
+CULTIVATION = (
+    "Gidney C, Shutty N, Jones C. Magic state cultivation: growing T states as cheap as CNOT "
+    "gates. arXiv:2409.17595, 2024."
+)
 PYMATCHING = (
     "Higgott O. PyMatching: A Python package for decoding quantum codes with minimum-weight "
     "perfect matching. ACM Transactions on Quantum Computing 2022; 3(3):16."
@@ -174,20 +187,22 @@ DOCS: list[Doc] = [
         repo_url="https://github.com/afogelis/qec-portfolio",
         abstract=(
             "This document introduces a seven-part software portfolio in quantum error correction "
-            "(QEC) that follows a single technical arc: simulate the surface code at the circuit "
-            "level, decode it with classical and machine-learning algorithms, make the resulting "
-            "metrics observable, and then use the same physics to answer two questions that matter "
-            "for fault tolerance - how far practical decoders are from optimal, and how many "
-            "physical qubits a cryptographically relevant computation would require. Each component "
-            "is an independent, installable, tested and continuously integrated Python package; the "
-            "later components depend on the earlier ones. Headline results obtained across the "
-            "portfolio include a circuit-level threshold near 0.6%, a quantitative demonstration "
-            "that belief propagation is dominated on the surface code by matching-based decoders, "
-            "a calibrated reproduction of the roughly twenty-million-qubit, eight-hour estimate for "
-            "Shor's algorithm on RSA-2048, a simulation reproduction of the error-suppression "
-            "scaling reported by Google in 2023 (suppression factor near 2.2 below threshold), and "
-            "an exact measurement of the small but growing sub-optimality of minimum-weight perfect "
-            "matching relative to maximum-likelihood decoding."
+            "(QEC). Its flagship result is an exact, sampling-free measurement of how far the "
+            "standard minimum-weight perfect matching decoder sits from the provably optimal "
+            "maximum-likelihood decoder: by enumerating every error pattern of small surface codes, "
+            "matching is shown to be exactly optimal at distance three and only slightly "
+            "sub-optimal at distance five. Around that core result the portfolio follows a single "
+            "technical arc: simulate the surface code at the circuit level, decode it with "
+            "classical and machine-learning algorithms, make the resulting metrics observable, and "
+            "use the same physics to estimate the physical-qubit cost of a cryptographically "
+            "relevant computation. Each component is an independent, installable, tested and "
+            "continuously integrated Python package; the later components depend on the earlier "
+            "ones. Further headline results include a circuit-level threshold near 0.6%, a "
+            "quantitative demonstration that plain belief propagation is dominated on the surface "
+            "code by matching-based decoders, a calibrated reproduction of the roughly "
+            "twenty-million-qubit, eight-hour estimate for Shor's algorithm on RSA-2048, and a "
+            "simulation reproduction of the error-suppression scaling reported by Google in 2023 "
+            "(suppression factor near 2.2 below threshold)."
         ),
         sections=[
             Section(
@@ -277,9 +292,12 @@ DOCS: list[Doc] = [
                     "at distance three but degrade sharply at distance five under a fixed training "
                     "budget - rather than overclaiming.",
                     "The economics model reproduces the canonical roughly twenty-million-qubit, "
-                    "eight-hour estimate for factoring RSA-2048 with Shor's algorithm, and "
-                    "identifies the physical error rate as the dominant cost lever because it "
-                    "enters the required code distance exponentially. The reproduction capstones "
+                    "eight-hour estimate for factoring RSA-2048 with Shor's algorithm, identifies "
+                    "the physical error rate as the dominant cost lever because it enters the "
+                    "required code distance exponentially, and tracks the cost frontier forward to "
+                    "the 2025 state of the art (Gidney, arXiv:2505.15917), which lowers the "
+                    "estimate by roughly twentyfold to under one million physical qubits. The "
+                    "reproduction capstones "
                     "recover, respectively, an error-suppression factor near 2.2 below threshold "
                     "and an exact matching sub-optimality that is unity at distance three and grows "
                     "slowly at distance five.",
@@ -305,7 +323,7 @@ DOCS: list[Doc] = [
                 ],
             ),
         ],
-        references=[FOWLER, DENNIS, GOOGLE, GIDNEY_EKERA, MAAN_PALER, STIM, PYMATCHING],
+        references=[FOWLER, DENNIS, GOOGLE, GIDNEY_EKERA, GIDNEY_2025, MAAN_PALER, STIM, PYMATCHING],
     ),
     # -----------------------------------------------------------------
     # 1. surface-code-simulator
@@ -422,15 +440,18 @@ DOCS: list[Doc] = [
         repo_url="https://github.com/afogelis/decoder-benchmark",
         abstract=(
             "A benchmarking framework was developed to compare surface-code decoders on a level "
-            "playing field, scoring each on accuracy, runtime and peak memory over identical "
-            "batches of error syndromes. Minimum-weight perfect matching (via PyMatching) was "
-            "compared against from-scratch implementations of a union-find decoder and a "
-            "log-domain belief-propagation decoder. Across code distances three and five and "
-            "physical error rates between 0.5% and 1.2%, matching achieved the lowest mean logical "
-            "error rate, union-find was close on accuracy at near-linear time cost, and belief "
-            "propagation was dominated on both accuracy and runtime. The framework reproduces the "
-            "consensus of the decoder literature and exposes, by implementing the algorithms "
-            "directly, why each behaves as it does."
+            "playing field, reporting accuracy and runtime as two separate tiers so that algorithm "
+            "quality is never conflated with implementation language. Minimum-weight perfect "
+            "matching (via PyMatching) was compared against from-scratch implementations of a "
+            "union-find decoder and a log-domain belief-propagation decoder, with an optional "
+            "ordered-statistics decoder (BP-OSD, via the ldpc package) as a compiled reference. "
+            "Across code distances three and five and physical error rates between 0.5% and 1.2%, "
+            "matching achieved the lowest mean logical error rate and union-find was close on "
+            "accuracy, while plain belief propagation was the least accurate. Runtime was compared "
+            "only within an implementation backend, because a pure-Python decoder cannot be "
+            "meaningfully timed against compiled C++. The framework reproduces the consensus of the "
+            "decoder literature and exposes, by implementing the algorithms directly, why each "
+            "behaves as it does."
         ),
         sections=[
             Section(
@@ -470,14 +491,17 @@ DOCS: list[Doc] = [
             Section(
                 "Results",
                 [
-                    "Minimum-weight perfect matching achieved the best mean logical error rate of "
-                    "the three decoders and the lowest runtime, reflecting its optimised compiled "
-                    "implementation. The union-find decoder was close to matching on accuracy while "
-                    "using markedly less memory, consistent with its near-linear design, but was "
-                    "slower than the compiled matching routine in this pure-Python implementation. "
-                    "Belief propagation was the weakest decoder, with the highest logical error "
-                    "rate and the highest runtime, leaving it dominated on both axes of the Pareto "
-                    "frontier.",
+                    "On the accuracy tier, which is comparable across all decoders because they "
+                    "decode identical syndromes, minimum-weight perfect matching achieved the best "
+                    "mean logical error rate, union-find was close behind, and plain belief "
+                    "propagation was the least accurate. This ordering is the scientific result and "
+                    "is independent of implementation language.",
+                    "On the runtime tier, comparisons were made only within an implementation "
+                    "backend. Within the pure-Python tier, union-find was both more accurate and "
+                    "faster than belief propagation while using markedly less memory, consistent "
+                    "with its near-linear design. The compiled matching routine was far faster than "
+                    "either pure-Python decoder, but that gap reflects the language rather than the "
+                    "algorithm and is therefore not presented as a like-for-like result.",
                     "The accuracy-versus-physical-error-rate curves at distance five reproduced the "
                     "expected ordering across the full range of physical error rates studied, with "
                     "matching and union-find defining the accuracy frontier and belief propagation "
@@ -485,12 +509,16 @@ DOCS: list[Doc] = [
                 ],
                 figures=[
                     (
+                        "02_accuracy_tier.png",
+                        "Figure 1. Accuracy tier: mean logical error rate per decoder, comparable across all because they decode identical syndromes. Plain belief propagation is the least accurate.",
+                    ),
+                    (
                         "02_pareto.png",
-                        "Figure 1. Accuracy-versus-runtime Pareto frontier. Matching and union-find define the accuracy frontier; belief propagation is dominated on both axes.",
+                        "Figure 2. Runtime tier: accuracy versus runtime, with points grouped by implementation backend. The runtime axis is comparable only within a backend.",
                     ),
                     (
                         "02_accuracy_vs_p_d5.png",
-                        "Figure 2. Logical error rate versus physical error rate at code distance five for each decoder.",
+                        "Figure 3. Logical error rate versus physical error rate at code distance five for each decoder.",
                     ),
                 ],
             ),
@@ -503,12 +531,15 @@ DOCS: list[Doc] = [
                     "which prevents the message-passing iteration from converging to the correct "
                     "marginal in the way it does for the sparse, loop-poor graphs of classical "
                     "low-density parity-check codes. Belief propagation becomes competitive only "
-                    "when augmented, for example with ordered-statistics post-processing.",
+                    "when augmented with ordered-statistics post-processing; an optional BP-OSD "
+                    "decoder backed by the ldpc package is provided as a compiled reference to make "
+                    "exactly this point, so that the weakness of plain belief propagation is not "
+                    "mistaken for a weakness of belief propagation as a family.",
                     "Union-find's strong accuracy at near-linear theoretical cost makes it "
                     "attractive for real-time decoding; the runtime gap observed here reflects the "
-                    "pure-Python implementation rather than the algorithm itself. Future work "
-                    "includes adding belief propagation with ordered-statistics decoding and "
-                    "correlated matching, and compiling the union-find inner loop. The "
+                    "pure-Python implementation rather than the algorithm itself, which is why "
+                    "runtime is reported only within an implementation backend. Future work "
+                    "includes correlated matching and compiling the union-find inner loop. The "
                     "machine-learning decoders evaluated in the companion repository register into "
                     "this same framework for direct comparison.",
                 ],
@@ -605,20 +636,23 @@ DOCS: list[Doc] = [
     # -----------------------------------------------------------------
     Doc(
         slug="04_ml_qec_decoder",
-        title="Machine-Learning Decoders for the Surface Code: A Regime Analysis against Minimum-Weight Perfect Matching",
+        title="When Learned Decoders Fail against Matching: A Controlled Negative Study on the Surface Code",
         repo_url="https://github.com/afogelis/ml-qec-decoder",
         abstract=(
-            "Three machine-learning decoders for the surface code - a random forest, a "
-            "gradient-boosted tree ensemble and a feed-forward neural network - were implemented "
-            "and compared head-to-head with minimum-weight perfect matching. Each model learns to "
-            "predict the logical observable flip directly from a syndrome and plugs into the "
-            "decoder-benchmark framework for a like-for-like comparison. Across code distances "
-            "three and five and physical error rates between 1% and 3% with a fixed training "
-            "budget, the learned decoders were competitive with matching at distance three - the "
-            "neural network reached a logical error rate of 0.080 against matching's 0.064 at a "
-            "physical rate of 1% - but degraded sharply at distance five. The study reaches a "
-            "calibrated conclusion about when learned decoding helps rather than overclaiming that "
-            "it beats matching."
+            "Four machine-learning decoders for the surface code - a random forest, a "
+            "gradient-boosted tree ensemble, a feed-forward neural network and a geometry-aware "
+            "convolutional network that reshapes the syndrome back onto its lattice - were "
+            "implemented and compared head-to-head with minimum-weight perfect matching. Each model "
+            "learns to predict the logical observable flip directly from a syndrome and plugs into "
+            "the decoder-benchmark framework for a like-for-like comparison. The study was designed "
+            "to test honestly whether learned decoders keep up with matching as the code grows. "
+            "Under a fixed, realistic training budget the answer is that they do not: the learned "
+            "decoders were competitive with matching only at distance three, and at distances five "
+            "and seven every model, including the convolutional one, diverged upward in logical "
+            "error rate while matching continued to suppress it. The geometry-aware inductive bias "
+            "of the convolutional model bought only a marginal edge over the tabular models and did "
+            "not prevent the collapse. The result is reported as a calibrated negative finding "
+            "about when learned decoding is the wrong tool, rather than a cherry-picked win."
         ),
         sections=[
             Section(
@@ -639,16 +673,24 @@ DOCS: list[Doc] = [
             Section(
                 "Materials and Methods",
                 [
-                    "Three models were implemented behind a common base class: a random forest and "
-                    "a gradient-boosted tree ensemble, and a feed-forward neural network trained "
-                    "with binary cross-entropy loss, the Adam optimiser and early stopping on a "
-                    "validation split. Training data were sampled from the same Stim circuits the "
-                    "classical decoders see, so the comparison is apples-to-apples, and the models "
-                    "were registered into the decoder-benchmark framework to be scored identically.",
-                    "The reported sweep covered code distances three and five at physical error "
-                    "rates of 1%, 1.5%, 2% and 3%, with twenty thousand training shots and five "
-                    "thousand evaluation shots at a fixed seed. Minimum-weight perfect matching was "
-                    "evaluated on the same shots as the reference.",
+                    "Four models were implemented behind a common base class: a random forest and a "
+                    "gradient-boosted tree ensemble; a feed-forward neural network trained with "
+                    "binary cross-entropy loss, the Adam optimiser and early stopping on a "
+                    "validation split; and a geometry-aware convolutional network. The "
+                    "convolutional model recovers each detector's lattice coordinate from the Stim "
+                    "circuit, scatters the binary detection events into a time-by-height-by-width "
+                    "image, and applies small convolutional kernels, giving it the translation-"
+                    "equivariant inductive bias appropriate to a two-dimensional code. Training "
+                    "data were sampled from the same Stim circuits the classical decoders see, so "
+                    "the comparison is apples-to-apples, and all models were registered into the "
+                    "decoder-benchmark framework to be scored identically.",
+                    "Two sweeps were run. A regime sweep covered code distances three and five at "
+                    "physical error rates of 1%, 1.5%, 2% and 3% with twenty thousand training and "
+                    "five thousand evaluation shots. A scaling sweep covered code distances three, "
+                    "five and seven at a fixed below-threshold physical error rate of 0.6% with "
+                    "thirty thousand training shots, in order to isolate how each decoder scales "
+                    "with code size. Minimum-weight perfect matching was evaluated on the same "
+                    "shots as the reference throughout.",
                 ],
             ),
             Section(
@@ -656,21 +698,28 @@ DOCS: list[Doc] = [
                 [
                     "At code distance three the learned decoders were competitive with matching. "
                     "The neural network achieved a logical error rate of 0.080 against matching's "
-                    "0.064 at a physical error rate of 1%, and the gap closed further with "
-                    "additional training data; inference was sub-microsecond per shot because a "
-                    "forward pass is a few matrix multiplications. At code distance five every "
-                    "learned decoder degraded markedly - for example the best learned decoder "
-                    "reached 0.335 against matching's 0.080 at a physical rate of 1% - because the "
-                    "syndrome space grows, logical flips become rarer, and a fixed training budget "
-                    "no longer covers the input distribution.",
-                    "Across all regimes matching won, but the margin and the reasons varied with "
-                    "distance and physical error rate, producing a clear regime map rather than a "
-                    "single verdict.",
+                    "0.064 at a physical error rate of 1%, and inference was sub-microsecond per "
+                    "shot because a forward pass is a few matrix multiplications. This was the only "
+                    "regime in which learned decoding was in contention.",
+                    "The scaling sweep made the failure unambiguous. As the code distance grew from "
+                    "three to seven at a fixed physical error rate of 0.6%, matching suppressed its "
+                    "logical error rate, holding near 0.02, while every learned decoder diverged "
+                    "upward to roughly 0.35 at distance seven. The growth of the syndrome space and "
+                    "the rarity of logical flips left the fixed training budget unable to cover the "
+                    "input distribution. The geometry-aware convolutional model was consistently "
+                    "the best of the learned decoders at distances five and seven, confirming that "
+                    "its lattice inductive bias helps, but the margin over the tabular models was "
+                    "small and it diverged from matching by roughly an order of magnitude all the "
+                    "same.",
                 ],
                 figures=[
                     (
+                        "04_cnn_scaling.png",
+                        "Figure 1. Logical error rate versus code distance at a fixed physical error rate of 0.6% for matching and the four learned decoders. Matching suppresses the logical error rate while every learned decoder, including the convolutional one, diverges upward.",
+                    ),
+                    (
                         "04_ml_vs_mwpm.png",
-                        "Figure 1. Logical error rate of matching versus the best machine-learning decoder, across code distance and physical error rate. The learned decoders approach matching at distance three and low physical rates, then fall behind at distance five.",
+                        "Figure 2. Logical error rate of matching versus the best machine-learning decoder across code distance and physical error rate. Points above the diagonal are matching wins; learned decoders only approach the diagonal at distance three and low physical rates.",
                     ),
                 ],
             ),
@@ -684,11 +733,14 @@ DOCS: list[Doc] = [
                     "machine learning beats matching, but that it is competitive only where the "
                     "matching graph is a poor model - strongly correlated or non-graphlike noise - "
                     "or where training data are abundant relative to the code distance.",
-                    "The fixed training budget is the central limitation; performance at distance "
-                    "five is data-starved by construction. Future work includes scaling training "
-                    "data with distance, convolutional and graph-neural architectures that exploit "
-                    "lattice locality, and evaluation under correlated and leakage noise where "
-                    "learned models are most likely to add value.",
+                    "That even the geometry-aware convolutional model fails to track matching is "
+                    "the most informative part of the study: the right architecture does not "
+                    "substitute for the missing data when logical failures are exponentially rare "
+                    "at large distance. The fixed training budget is the central limitation, and it "
+                    "is the realistic one. Future work includes scaling training data with "
+                    "distance, graph-neural architectures that exploit lattice locality more "
+                    "directly, and evaluation under correlated and leakage noise where learned "
+                    "models are most likely to add value.",
                 ],
             ),
         ],
@@ -711,7 +763,11 @@ DOCS: list[Doc] = [
             "yielded roughly twenty-three million physical qubits at code distance twenty-nine and "
             "a runtime of about seven to eight hours. A sensitivity analysis identified the "
             "physical error rate as the dominant cost lever, because it enters the required code "
-            "distance exponentially."
+            "distance exponentially. A historical-frontier extension reproduces the 2025 state of "
+            "the art (Gidney, arXiv:2505.15917), which lowers the estimate to under one million "
+            "physical qubits - an approximately twentyfold reduction under identical hardware "
+            "assumptions - and attributes the improvement to approximate residue arithmetic, yoked "
+            "surface codes and magic state cultivation."
         ),
         sections=[
             Section(
@@ -762,11 +818,29 @@ DOCS: list[Doc] = [
                     "improvements in physical fidelity translate into large reductions in "
                     "physical-qubit count, far outweighing changes in cycle time or the assumed "
                     "threshold.",
+                    "Extending the model across published estimates reproduced the falling cost of "
+                    "quantum factoring under comparable assumptions: from roughly one billion "
+                    "physical qubits (2012), to twenty million (Gidney and Ekera, 2019), to under "
+                    "one million (Gidney, 2025) - an approximately twentyfold reduction over the "
+                    "2019 figure. The 2025 headline was reconstructed from its reported components "
+                    "rather than re-derived: cold yoked storage (1,280 logical qubits at 430 "
+                    "physical qubits each), hot storage (131 logical qubits at 1,352 each) and a "
+                    "compute region of 126 patches summed to 897,864 physical qubits, which the "
+                    "source rounds up to one million for slack. The reduction was attributed to "
+                    "three techniques: approximate residue arithmetic (fewer logical qubits), "
+                    "yoked surface codes (about threefold denser idle storage) and magic state "
+                    "cultivation (smaller distillation factories); the Toffoli count rose from "
+                    "about three billion to about 6.5 billion, a deliberate trade of time for "
+                    "space.",
                 ],
                 figures=[
                     (
                         "05_sensitivity.png",
                         "Figure 1. Sensitivity of the physical-qubit estimate to each modelling assumption. The physical error rate dominates because it enters the required code distance exponentially.",
+                    ),
+                    (
+                        "05_frontier.png",
+                        "Figure 2. Historical physical-qubit cost of factoring RSA-2048 under comparable hardware assumptions: about one billion qubits (2012), twenty million (2019), and one million (2025).",
                     ),
                 ],
             ),
@@ -787,7 +861,7 @@ DOCS: list[Doc] = [
                 ],
             ),
         ],
-        references=[SHOR, GIDNEY_EKERA, FOWLER, KITAEV],
+        references=[SHOR, GIDNEY_EKERA, GIDNEY_2025, CFS24, YOKED, CULTIVATION, FOWLER, KITAEV],
     ),
     # -----------------------------------------------------------------
     # 6. google reproduction

@@ -9,23 +9,50 @@ Common stack: [Stim](https://github.com/quantumlib/Stim) (stabilizer simulation)
 [PyMatching](https://pymatching.readthedocs.io/) (MWPM), Pydantic v2 typed configs, pytest, and
 GitHub Actions CI. Each repo follows the same `src/` layout, RORO interfaces, and MIT license.
 
+## What this is, and what it is not
+
+**This is:** reproducible research software. It reproduces two published results from scratch,
+implements decoders (union-find, belief propagation, and an exact maximum-likelihood decoder) by
+hand to study their behaviour, and turns physics into decision-ready resource estimates. The
+engineering is production-grade: typed configs, tests against the real Stim/PyMatching stack, and CI
+across four Python versions.
+
+**This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production
+decoder stack. The foundational simulator (repo 1) is an *experiment pipeline* built on Stim and
+PyMatching, not a re-implementation of them. The genuinely algorithmic contribution is the **exact
+maximum-likelihood decoder** in repo 7, which measures how far minimum-weight perfect matching sits
+from optimal without any Monte Carlo sampling error. Engineering trade-offs (including why this is
+seven repos rather than a monorepo) are documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
 ## The repositories
+
+Start with the capstones; they show the ability to reproduce published research and to implement a
+provably-optimal decoder. The foundation and tooling repos underneath are the infrastructure they
+build on.
+
+### Capstones (start here)
 
 | # | Repository | What it does | Highlight |
 |---|-----------|--------------|-----------|
-| 1 | [`surface-code-simulator`](surface-code-simulator/) | Circuit-level surface-code Monte Carlo: build, sample, decode, threshold. | Clean threshold crossing at p_th ~ 0.6%. |
-| 2 | [`decoder-benchmark`](decoder-benchmark/) | Benchmark MWPM vs from-scratch union-find and belief propagation on accuracy/runtime/memory. | BP shown to be dominated, reproducing the literature. |
-| 3 | [`qec-dashboard`](qec-dashboard/) | Streamlit operational dashboard over simulation/benchmark artifacts. | Decoupled data contracts + bundled sample data. |
-| 4 | [`ml-qec-decoder`](ml-qec-decoder/) | Random forest, XGBoost and a PyTorch MLP decoder, with an honest ML-vs-MWPM regime analysis. | Calibrated finding: ML approaches but does not beat MWPM. |
-| 5 | [`fault-tolerance-economics`](fault-tolerance-economics/) | Resource/cost model; how many qubits to break RSA-2048 with Shor. | Reproduces ~20M qubits / ~8 hours (Gidney-Ekera). |
+| 7 | [`decoder-accuracy-reproduction`](decoder-accuracy-reproduction/) | Exact maximum-likelihood vs MWPM decoder comparison by error-pattern enumeration (arXiv:2311.12503). | Sampling-free: MWPM provably optimal at d=3, quantifiably sub-optimal at d=5. |
 | 6 | [`google-surface-code-reproduction`](google-surface-code-reproduction/) | Simulation reproduction of Google's Nature 2023 scaling result. | Reproduces error suppression Lambda ~ 2.2 below threshold. |
-| 7 | [`decoder-accuracy-reproduction`](decoder-accuracy-reproduction/) | Exact MWPM-vs-optimal decoder comparison (arXiv:2311.12503). | Exact enumeration: MWPM optimal at d=3, sub-optimal at d=5. |
+
+### Foundation and tooling
+
+| # | Repository | What it does | Highlight |
+|---|-----------|--------------|-----------|
+| 1 | [`surface-code-simulator`](surface-code-simulator/) | Infrastructure layer: circuit-level surface-code Monte Carlo pipeline on Stim + PyMatching (build, sample, decode, threshold). | Clean threshold crossing at p_th ~ 0.6%. |
+| 2 | [`decoder-benchmark`](decoder-benchmark/) | Benchmark MWPM vs from-scratch union-find and belief propagation, with separate accuracy and runtime tiers and an optional BP-OSD reference. | Plain BP dominated on accuracy; BP-OSD competitive. |
+| 5 | [`fault-tolerance-economics`](fault-tolerance-economics/) | Resource/cost model: how many qubits to break RSA-2048 with Shor. | Reproduces ~20M qubits / ~8 hours (Gidney-Ekera). |
+| 4 | [`ml-qec-decoder`](ml-qec-decoder/) | A controlled negative study: when do tabular/geometry-aware ML decoders fail against MWPM? | Calibrated finding: ML competitive at d=3, fails at d=5. |
+| 3 | [`qec-dashboard`](qec-dashboard/) | Streamlit artifact viewer over simulation/benchmark outputs (demo/observability). | Decoupled JSON data contracts + bundled sample data. |
 
 ## Suggested reading order
 
-For a reviewer with limited time: **6 -> 7 -> 2 -> 1 -> 4 -> 5 -> 3**. Repos 6 and 7 show the
-ability to reproduce published research; 2 and 1 show the core simulation and decoding engineering;
-4 and 5 show applied ML and quantitative modelling; 3 shows productisation.
+For a reviewer with limited time: **7 -> 6 -> 2 -> 1 -> 5 -> 4 -> 3**. Repos 7 and 6 show the
+ability to reproduce published research and implement an optimal decoder; 2 and 1 show the core
+decoding and simulation engineering; 5 and 4 show quantitative modelling and an honest ML study;
+3 shows productisation.
 
 ## Dependency graph
 
@@ -60,7 +87,7 @@ same environment first; see each repo's README for the exact commands.
 All repositories pass their test suites locally (Python 3.10-3.14):
 
 - surface-code-simulator: 15 passed
-- decoder-benchmark: 15 passed
+- decoder-benchmark: 16 passed, 1 skipped (BP-OSD, optional `ldpc` dependency)
 - ml-qec-decoder: 7 passed
 - qec-dashboard: 4 passed
 - fault-tolerance-economics: 7 passed

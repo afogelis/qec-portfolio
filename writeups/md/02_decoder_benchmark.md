@@ -6,7 +6,7 @@ Repository: <https://github.com/afogelis/decoder-benchmark>
 
 ## Abstract
 
-A benchmarking framework was developed to compare surface-code decoders on a level playing field, scoring each on accuracy, runtime and peak memory over identical batches of error syndromes. Minimum-weight perfect matching (via PyMatching) was compared against from-scratch implementations of a union-find decoder and a log-domain belief-propagation decoder. Across code distances three and five and physical error rates between 0.5% and 1.2%, matching achieved the lowest mean logical error rate, union-find was close on accuracy at near-linear time cost, and belief propagation was dominated on both accuracy and runtime. The framework reproduces the consensus of the decoder literature and exposes, by implementing the algorithms directly, why each behaves as it does.
+A benchmarking framework was developed to compare surface-code decoders on a level playing field, reporting accuracy and runtime as two separate tiers so that algorithm quality is never conflated with implementation language. Minimum-weight perfect matching (via PyMatching) was compared against from-scratch implementations of a union-find decoder and a log-domain belief-propagation decoder, with an optional ordered-statistics decoder (BP-OSD, via the ldpc package) as a compiled reference. Across code distances three and five and physical error rates between 0.5% and 1.2%, matching achieved the lowest mean logical error rate and union-find was close on accuracy, while plain belief propagation was the least accurate. Runtime was compared only within an implementation backend, because a pure-Python decoder cannot be meaningfully timed against compiled C++. The framework reproduces the consensus of the decoder literature and exposes, by implementing the algorithms directly, why each behaves as it does.
 
 ## Introduction
 
@@ -22,23 +22,29 @@ Each decoder was profiled for accuracy (logical error rate), runtime (microsecon
 
 ## Results
 
-Minimum-weight perfect matching achieved the best mean logical error rate of the three decoders and the lowest runtime, reflecting its optimised compiled implementation. The union-find decoder was close to matching on accuracy while using markedly less memory, consistent with its near-linear design, but was slower than the compiled matching routine in this pure-Python implementation. Belief propagation was the weakest decoder, with the highest logical error rate and the highest runtime, leaving it dominated on both axes of the Pareto frontier.
+On the accuracy tier, which is comparable across all decoders because they decode identical syndromes, minimum-weight perfect matching achieved the best mean logical error rate, union-find was close behind, and plain belief propagation was the least accurate. This ordering is the scientific result and is independent of implementation language.
+
+On the runtime tier, comparisons were made only within an implementation backend. Within the pure-Python tier, union-find was both more accurate and faster than belief propagation while using markedly less memory, consistent with its near-linear design. The compiled matching routine was far faster than either pure-Python decoder, but that gap reflects the language rather than the algorithm and is therefore not presented as a like-for-like result.
 
 The accuracy-versus-physical-error-rate curves at distance five reproduced the expected ordering across the full range of physical error rates studied, with matching and union-find defining the accuracy frontier and belief propagation trailing.
 
-![Figure 1. Accuracy-versus-runtime Pareto frontier. Matching and union-find define the accuracy frontier; belief propagation is dominated on both axes.](../figures/02_pareto.png)
+![Figure 1. Accuracy tier: mean logical error rate per decoder, comparable across all because they decode identical syndromes. Plain belief propagation is the least accurate.](../figures/02_accuracy_tier.png)
 
-*Figure 1. Accuracy-versus-runtime Pareto frontier. Matching and union-find define the accuracy frontier; belief propagation is dominated on both axes.*
+*Figure 1. Accuracy tier: mean logical error rate per decoder, comparable across all because they decode identical syndromes. Plain belief propagation is the least accurate.*
 
-![Figure 2. Logical error rate versus physical error rate at code distance five for each decoder.](../figures/02_accuracy_vs_p_d5.png)
+![Figure 2. Runtime tier: accuracy versus runtime, with points grouped by implementation backend. The runtime axis is comparable only within a backend.](../figures/02_pareto.png)
 
-*Figure 2. Logical error rate versus physical error rate at code distance five for each decoder.*
+*Figure 2. Runtime tier: accuracy versus runtime, with points grouped by implementation backend. The runtime axis is comparable only within a backend.*
+
+![Figure 3. Logical error rate versus physical error rate at code distance five for each decoder.](../figures/02_accuracy_vs_p_d5.png)
+
+*Figure 3. Logical error rate versus physical error rate at code distance five for each decoder.*
 
 ## Discussion
 
-That plain belief propagation is dominated on the surface code is a known result, and reproducing it from a direct implementation clarifies the cause: the surface-code factor graph is highly degenerate and rich in short cycles, which prevents the message-passing iteration from converging to the correct marginal in the way it does for the sparse, loop-poor graphs of classical low-density parity-check codes. Belief propagation becomes competitive only when augmented, for example with ordered-statistics post-processing.
+That plain belief propagation is dominated on the surface code is a known result, and reproducing it from a direct implementation clarifies the cause: the surface-code factor graph is highly degenerate and rich in short cycles, which prevents the message-passing iteration from converging to the correct marginal in the way it does for the sparse, loop-poor graphs of classical low-density parity-check codes. Belief propagation becomes competitive only when augmented with ordered-statistics post-processing; an optional BP-OSD decoder backed by the ldpc package is provided as a compiled reference to make exactly this point, so that the weakness of plain belief propagation is not mistaken for a weakness of belief propagation as a family.
 
-Union-find's strong accuracy at near-linear theoretical cost makes it attractive for real-time decoding; the runtime gap observed here reflects the pure-Python implementation rather than the algorithm itself. Future work includes adding belief propagation with ordered-statistics decoding and correlated matching, and compiling the union-find inner loop. The machine-learning decoders evaluated in the companion repository register into this same framework for direct comparison.
+Union-find's strong accuracy at near-linear theoretical cost makes it attractive for real-time decoding; the runtime gap observed here reflects the pure-Python implementation rather than the algorithm itself, which is why runtime is reported only within an implementation backend. Future work includes correlated matching and compiling the union-find inner loop. The machine-learning decoders evaluated in the companion repository register into this same framework for direct comparison.
 
 ## References
 

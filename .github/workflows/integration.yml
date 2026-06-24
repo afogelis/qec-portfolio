@@ -1,0 +1,28 @@
+name: integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    # Proves the separately-published portfolio repos still wire into one
+    # pipeline, which is the main risk of the multi-repo layout.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install third-party runtime dependencies
+        run: pip install stim pymatching numpy scipy networkx matplotlib pydantic psutil
+      - name: Install portfolio packages in dependency order (from main)
+        run: |
+          pip install --no-deps "git+https://github.com/afogelis/surface-code-simulator.git@main"
+          pip install --no-deps "git+https://github.com/afogelis/decoder-benchmark.git@main"
+          pip install --no-deps "git+https://github.com/afogelis/decoder-accuracy-reproduction.git@main"
+      - name: Run cross-repository smoke test
+        run: python scripts/integration_smoke.py
