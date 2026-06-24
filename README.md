@@ -15,9 +15,8 @@ Current focus: **Quantum Error Correction** -- 10 projects.
 
 **This is:** reproducible research software. It reproduces published results from scratch, implements
 decoders (union-find, belief propagation, and an exact maximum-likelihood decoder) by hand to study
-their behavior, and turns physics into decision-ready resource estimates. The engineering is
-production-grade: typed configs, tests against the real Stim/PyMatching stack, and CI across four
-Python versions.
+their behavior, and turns physics into decision-ready resource estimates. The engineering is: typed configs, 
+tests against the real Stim/PyMatching stack, and CI across four Python versions.
 
 **This is not:** a new QEC theory result, a replacement for Stim or PyMatching, or a production
 decoder stack. The foundational simulator (`surface-code-simulator`) is an *experiment pipeline*
