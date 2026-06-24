@@ -370,7 +370,7 @@ DOCS: list[Doc] = [
     # -----------------------------------------------------------------
     Doc(
         slug="01_surface_code_simulator",
-        title="A Transparent Circuit-Level Surface-Code Memory Simulator with Threshold Estimation",
+        title="A Circuit-Level Surface-Code Memory Simulator with Threshold Estimation",
         repo_url="https://github.com/afogelis/surface-code-simulator",
         abstract=(
             "A circuit-level Monte Carlo simulator for the surface code was implemented on top of "
@@ -382,7 +382,7 @@ DOCS: list[Doc] = [
             "sweep over code distances three, five and seven and physical error rates between 0.5% "
             "and 1.5% located the threshold near 0.6%, below which the logical error rate was "
             "suppressed with increasing code distance. The result is consistent with the accepted "
-            "range for circuit-level depolarising noise and provides a transparent, testable "
+            "range for circuit-level depolarising noise and provides a testable "
             "foundation for the rest of the portfolio."
         ),
         sections=[
@@ -793,7 +793,7 @@ DOCS: list[Doc] = [
         title="Physical-Qubit and Runtime Economics of Shor's Algorithm on RSA-2048",
         repo_url="https://github.com/afogelis/fault-tolerance-economics",
         abstract=(
-            "A transparent resource and cost model was developed to estimate the physical qubits, "
+            "A resource and cost model was developed to estimate the physical qubits, "
             "runtime and cost required to run Shor's algorithm against RSA-2048 under realistic "
             "error-correction overhead. Logical resource requirements were taken from the "
             "literature and propagated through the surface-code suppression law to fix the code "
@@ -818,7 +818,7 @@ DOCS: list[Doc] = [
                     "running it is a question of direct strategic interest. That cost is dominated "
                     "not by the logical algorithm but by the error-correction overhead needed to "
                     "execute it reliably.",
-                    "This work built a transparent model that turns explicit physical assumptions "
+                    "This work built a model that turns explicit physical assumptions "
                     "into a physical-qubit, runtime and cost budget, with the aim of reproducing "
                     "the canonical published estimate and exposing which assumptions matter most.",
                 ],
@@ -886,7 +886,7 @@ DOCS: list[Doc] = [
             Section(
                 "Discussion",
                 [
-                    "Reproducing the canonical estimate from an independent, transparent model "
+                    "Reproducing the canonical estimate from an independent model "
                     "increases confidence in both the estimate and the model, and the dominance of "
                     "the physical error rate clarifies where hardware effort yields the greatest "
                     "leverage. The exercise also illustrates translating a physics result into a "
@@ -1390,7 +1390,7 @@ DOCS: list[Doc] = [
                     "factory/logic crossover, is the quantitative lesson: a fault-tolerant "
                     "architecture should provision just enough factories to make magic-state "
                     "production keep pace with the logical circuit, and no more. Expressing the "
-                    "trade-off through a transparent tile-based model makes the answer inspectable "
+                    "trade-off through a tile-based model makes the answer inspectable "
                     "and easy to re-run under different hardware assumptions.",
                     "The model is an architecture-level estimator, not a placement-and-routing "
                     "compiler: it does not lay out individual patches, schedule lattice-surgery "

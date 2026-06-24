@@ -6,13 +6,13 @@ Repository: <https://github.com/afogelis/fault-tolerance-economics>
 
 ## Abstract
 
-A transparent resource and cost model was developed to estimate the physical qubits, runtime and cost required to run Shor's algorithm against RSA-2048 under realistic error-correction overhead. Logical resource requirements were taken from the literature and propagated through the surface-code suppression law to fix the code distance, the per-patch physical-qubit footprint and the total runtime. Calibrated to the canonical estimate of Gidney and Ekera (2021), a baseline superconducting profile yielded roughly twenty-three million physical qubits at code distance twenty-nine and a runtime of about seven to eight hours. A sensitivity analysis identified the physical error rate as the dominant cost lever, because it enters the required code distance exponentially. A historical-frontier extension reproduces the 2025 state of the art (Gidney, arXiv:2505.15917), which lowers the estimate to under one million physical qubits - an approximately twentyfold reduction under identical hardware assumptions - and attributes the improvement to approximate residue arithmetic, yoked surface codes and magic state cultivation.
+A resource and cost model was developed to estimate the physical qubits, runtime and cost required to run Shor's algorithm against RSA-2048 under realistic error-correction overhead. Logical resource requirements were taken from the literature and propagated through the surface-code suppression law to fix the code distance, the per-patch physical-qubit footprint and the total runtime. Calibrated to the canonical estimate of Gidney and Ekera (2021), a baseline superconducting profile yielded roughly twenty-three million physical qubits at code distance twenty-nine and a runtime of about seven to eight hours. A sensitivity analysis identified the physical error rate as the dominant cost lever, because it enters the required code distance exponentially. A historical-frontier extension reproduces the 2025 state of the art (Gidney, arXiv:2505.15917), which lowers the estimate to under one million physical qubits - an approximately twentyfold reduction under identical hardware assumptions - and attributes the improvement to approximate residue arithmetic, yoked surface codes and magic state cultivation.
 
 ## Introduction
 
 The security of widely deployed public-key cryptography rests on the classical hardness of factoring. Shor's algorithm would break RSA on a sufficiently large fault-tolerant quantum computer, so the physical-resource cost of running it is a question of direct strategic interest. That cost is dominated not by the logical algorithm but by the error-correction overhead needed to execute it reliably.
 
-This work built a transparent model that turns explicit physical assumptions into a physical-qubit, runtime and cost budget, with the aim of reproducing the canonical published estimate and exposing which assumptions matter most.
+This work built a model that turns explicit physical assumptions into a physical-qubit, runtime and cost budget, with the aim of reproducing the canonical published estimate and exposing which assumptions matter most.
 
 ## Materials and Methods
 
@@ -38,7 +38,7 @@ Extending the model across published estimates reproduced the falling cost of qu
 
 ## Discussion
 
-Reproducing the canonical estimate from an independent, transparent model increases confidence in both the estimate and the model, and the dominance of the physical error rate clarifies where hardware effort yields the greatest leverage. The exercise also illustrates translating a physics result into a decision-ready figure with explicit, inspectable assumptions.
+Reproducing the canonical estimate from an independent model increases confidence in both the estimate and the model, and the dominance of the physical error rate clarifies where hardware effort yields the greatest leverage. The exercise also illustrates translating a physics result into a decision-ready figure with explicit, inspectable assumptions.
 
 The model is deliberately simplified: it abstracts magic-state distillation, routing congestion and lattice-surgery scheduling into multipliers and a calibrated per-Toffoli time rather than modeling them in detail. Future work includes an explicit distillation-factory model, a scheduling-aware runtime estimate, and profiles for additional hardware modalities such as neutral atoms and trapped ions.
 

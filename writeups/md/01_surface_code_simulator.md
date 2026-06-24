@@ -1,4 +1,4 @@
-# A Transparent Circuit-Level Surface-Code Memory Simulator with Threshold Estimation
+# A Circuit-Level Surface-Code Memory Simulator with Threshold Estimation
 
 *Andrew Fogelis*
 
@@ -6,7 +6,7 @@ Repository: <https://github.com/afogelis/surface-code-simulator>
 
 ## Abstract
 
-A circuit-level Monte Carlo simulator for the surface code was implemented on top of Stim and PyMatching to study the logical performance of the code as a quantum memory. The simulator builds surface-code memory circuits, applies a single physical error rate uniformly across all circuit-level noise channels, samples detection events, decodes them with minimum-weight perfect matching derived from the circuit's detector error model, and tracks logical failures with Wilson confidence intervals. A threshold sweep over code distances three, five and seven and physical error rates between 0.5% and 1.5% located the threshold near 0.6%, below which the logical error rate was suppressed with increasing code distance. The result is consistent with the accepted range for circuit-level depolarising noise and provides a transparent, testable foundation for the rest of the portfolio.
+A circuit-level Monte Carlo simulator for the surface code was implemented on top of Stim and PyMatching to study the logical performance of the code as a quantum memory. The simulator builds surface-code memory circuits, applies a single physical error rate uniformly across all circuit-level noise channels, samples detection events, decodes them with minimum-weight perfect matching derived from the circuit's detector error model, and tracks logical failures with Wilson confidence intervals. A threshold sweep over code distances three, five and seven and physical error rates between 0.5% and 1.5% located the threshold near 0.6%, below which the logical error rate was suppressed with increasing code distance. The result is consistent with the accepted range for circuit-level depolarising noise and provides a testable foundation for the rest of the portfolio.
 
 ## Introduction
 

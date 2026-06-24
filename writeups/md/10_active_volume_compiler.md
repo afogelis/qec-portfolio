@@ -36,7 +36,7 @@ Decomposing the runtime made the mechanism explicit. The factory-limited time fa
 
 ## Discussion
 
-The existence of an interior volume optimum, and its location at the factory/logic crossover, is the quantitative lesson: a fault-tolerant architecture should provision just enough factories to make magic-state production keep pace with the logical circuit, and no more. Expressing the trade-off through a transparent tile-based model makes the answer inspectable and easy to re-run under different hardware assumptions.
+The existence of an interior volume optimum, and its location at the factory/logic crossover, is the quantitative lesson: a fault-tolerant architecture should provision just enough factories to make magic-state production keep pace with the logical circuit, and no more. Expressing the trade-off through a tile-based model makes the answer inspectable and easy to re-run under different hardware assumptions.
 
 The model is an architecture-level estimator, not a placement-and-routing compiler: it does not lay out individual patches, schedule lattice-surgery operations cycle by cycle, or implement the full active-volume accounting of Litinski and Nickerson. It is intended to capture the shape of the trade-off rather than to certify a specific device's qubit count. A cycle-accurate scheduler and an explicit distillation-factory model are the natural next steps.
 
